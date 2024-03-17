@@ -3,6 +3,18 @@
 {%block title%}Pomedoro{%endblock%}
 
 {%block body%}
-    <h1>Hello World</h1>
+    <div class="progressbar-container">
+        <div class="progressbar">hi</div>
+    </div>
 
+    <script>
+        var time = 1500;
+        var timeleft = time;
+        var progressBar = document.getElementsByClassName("progressbar");
+        var x = setInterval({
+
+            var timeleft -=1;
+        
+        },1000);
+    </script>
 {%endblock%}

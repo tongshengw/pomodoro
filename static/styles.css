@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&display=swap');
+
+:root {
+    --cg1: #DCDEE6;
+    --cg2: #6699CC;
+  }
+
+.progressbar-container{
+    background-color: var(--cg1);
+    width: 50%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 2em;
+    border-radius: 1em;
+}
+
+.progressbar{
+    background-color: var(--cg2);
+    width:30%;
+    height: 2em;
+    border-radius: 1em;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    text-indent: 20px;
+}
+
+body{
+    font-family: "Fragment Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
