@@ -12,6 +12,25 @@
     </head>
     
     <body>
-        {%block body%}{%endblock%}
+        <div class="container">
+            <header>
+                <a id="logo" href="/" class="nav-element">
+                    <div class = "text">pomedoro</div>
+                </a>
+                <nav>
+                    <a href = "/" class="nav-element">
+                        <div class="text">friends</div>
+                    </a>
+                </nav>
+            </header>
+            {%block body%}{%endblock%}
+            
+            <div class="footer">
+                footer
+            </div>
+        </div>
+
+        {%block script%}{%endblock%}
+        
     </body>
 </html>

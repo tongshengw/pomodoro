@@ -3,14 +3,28 @@
 {%block title%}Pomedoro{%endblock%}
 
 {%block body%}
+<main>
+    <div class="options-bar">
+        <div class="row">
+            <div class="option">Focus</div>
+            <div class="option">Rest</div>
+        </div>
+    </div>
+
     <div class="progressbar-container">
         <div class="progressbar">
             <span id="percentage">0%</span>
         </div>
     </div>
+</main>
+    
 
+    
+{%endblock%}
+
+{%block script%}
     <script>
-        var time = 60;
+        var time = 1;
         var timeleft = time;
         var progressBar = document.getElementsByClassName("progressbar")[0];
         var x = setInterval(function() {
@@ -32,7 +46,9 @@
                 progressBar.style.width = 5 + "%"
             }
                 
-        
+            if (timeleft <= 0) {
+                clearInterval(x);
+            }
         },50);
     </script>
 {%endblock%}
