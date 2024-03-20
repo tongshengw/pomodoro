@@ -13,21 +13,23 @@
     
     <body>
         <div class="container">
-            <header>
-                <a id="logo" href="/" class="nav-element">
-                    <div class = "text">pomedoro</div>
-                </a>
-                <nav>
-                    <a href = "/" class="nav-element">
-                        <div class="text">friends</div>
+            <!-- <div class="wrapper"> -->
+                <header>
+                    <a id="logo" href="/" class="nav-element">
+                        <div class = "text">pomedoro</div>
                     </a>
-                </nav>
-            </header>
-            {%block body%}{%endblock%}
-            
-            <div class="footer">
-                footer
-            </div>
+                    <nav>
+                        <a href = "/" class="nav-element">
+                            <div class="text">friends</div>
+                        </a>
+                    </nav>
+                </header>
+                {%block body%}{%endblock%}
+                
+                <div class="footer">
+                    footer
+                </div>
+            <!-- </div> -->
         </div>
 
         {%block script%}{%endblock%}
