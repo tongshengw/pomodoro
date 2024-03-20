@@ -4,6 +4,7 @@
     --cg1: #DCDEE6;
     --cg2: #96d0ff;
     --cg3: #959a9f;
+    --cg4:#000000;
   }
 
 .progressbar-container{
@@ -30,27 +31,38 @@
 }
 
 .options-bar{
-    display: grid;
+    /* display: grid; */
     gap: .5rem;
-    grid-auto-flow: column;
-    height: max-content;
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 1rem;
-    background-color: var(--cg3);
+    /* grid-auto-flow: column; */
+    /* height: max-content; */
+    /* width: 100%; */
+    /* justify-content: space-around; */
+    /* margin-bottom: 1rem; */
     height:2em;
-    border-radius:0.5em;
-    width: 50%;
+    /* border-radius:0.5em; */
+    /* width: 50%; */
     /* position:absolute; */
-    margin:auto;
+    /* margin:auto; */
     /* left:50%; */
     /* transform: translate(-50%, 500%); */
-    align-items: baseline;
+    /* align-items: baseline; */
+    /* justify-content: space-around; */
+
+    display: grid;
+    font-size: .75rem;
+    gap: .5rem;
+    grid-auto-flow: column;
+    height: -moz-max-content;
+    height: max-content;
+    width: 100%;
+    /* transition: opacity .125s; */
     justify-content: space-around;
+    margin-bottom: 1rem;
 }
 
 .option{
-    padding: .75rem .5rem .7rem 1rem;
+    padding: .7rem;
+    font-size: .75rem;
 }
 body{
     font-family: "Fragment Mono", monospace;
@@ -74,15 +86,46 @@ main{
     display: grid;
     grid-auto-flow: row;
     grid-template-rows: auto 1fr auto;
-    padding: 2em;
-    gap: 2em;
+    padding: 2rem;
+    gap: 2rem;
     min-height: 100vh;
+    align-items: center;
+    /* padding-top: 32px; */
 }
 
 .row{
-    display: grid;
+    display: flex;
     justify-items: center;
-    padding: .25rem 1rem;
+    padding: .1rem 1rem;
     box-sizing: border-box;
     grid-auto-flow: column;
+    background-color: var(--cg3);
+    border-radius: .5em;
+    line-height: 1rem;
+}
+
+.time-options{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+}
+
+.text-button{
+    padding: .7rem .7rem .7rem .7rem;
+}
+
+.spacer{
+    height: auto;
+    width: .2rem;
+    border-radius: .5rem;
+    background-color:#000000;
+    margin: .5rem 0;
+    opacity: 0.5;
+}
+
+.last-element{
+    padding: .7rem 1.4rem .7rem .7rem;
+}
+.first-element{
+    padding: .7rem .7rem .7rem 1.4rem;
 }
