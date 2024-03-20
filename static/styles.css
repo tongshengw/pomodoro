@@ -2,7 +2,7 @@
 
 :root {
     --cg1: #DCDEE6;
-    --cg2: #6699CC;
+    --cg2: #96d0ff;
   }
 
 .progressbar-container{
@@ -12,20 +12,20 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100%);
     height: 2em;
     border-radius: 1em;
 }
 
 .progressbar{
     background-color: var(--cg2);
-    width:30%;
+    width:6%;
     height: 2em;
     border-radius: 1em;
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     align-items: center;
-    text-indent: 20px;
+    /* text-indent: 20px; */
 }
 
 body{

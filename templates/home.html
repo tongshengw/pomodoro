@@ -10,17 +10,29 @@
     </div>
 
     <script>
-        var time = 1500;
+        var time = 60;
         var timeleft = time;
-        var progressBar = document.getElementsByClassName("progressbar");
+        var progressBar = document.getElementsByClassName("progressbar")[0];
         var x = setInterval(function() {
 
-            timeleft -= 1;
+            timeleft -= 0.05;
 
             var percentage = document.getElementById("percentage");
             
-            percentage.innerHTML = ((1-timeleft/time) *100);
+            var smoothCompletion = ((1-timeleft/time) *100);
+            var completion = Math.round(smoothCompletion);
+
+            // completion is from 0-100 and is the percentage completion of the progress bar
+            percentage.innerHTML = completion + "%";
+            console.log(completion)
+            if (smoothCompletion > 5){
+                progressBar.style.width = smoothCompletion + "%";
+            }
+            else{
+                progressBar.style.width = 5 + "%"
+            }
+                
         
-        },1000);
+        },50);
     </script>
 {%endblock%}
