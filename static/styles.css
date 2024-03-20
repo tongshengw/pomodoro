@@ -31,24 +31,9 @@
 }
 
 .options-bar{
-    /* display: grid; */
-    gap: .5rem;
-    /* grid-auto-flow: column; */
-    /* height: max-content; */
-    /* width: 100%; */
-    /* justify-content: space-around; */
-    /* margin-bottom: 1rem; */
-    height:2em;
-    /* border-radius:0.5em; */
-    /* width: 50%; */
-    /* position:absolute; */
-    /* margin:auto; */
-    /* left:50%; */
-    /* transform: translate(-50%, 500%); */
-    /* align-items: baseline; */
-    /* justify-content: space-around; */
-
     display: grid;
+    gap: .5rem;
+    height:2em;
     font-size: .75rem;
     gap: .5rem;
     grid-auto-flow: column;
