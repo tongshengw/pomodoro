@@ -3,20 +3,22 @@
 :root {
     --cg1: #DCDEE6;
     --cg2: #96d0ff;
-    --cg3: #959a9f;
+    --cg3: #babfc4;
     --cg4:#000000;
   }
 
 .progressbar-container{
     background-color: var(--cg1);
-    width: 50%;
+    width: 60vw;
+    min-width: 100%;
     margin: auto;
     /* position: absolute; */
-    top: 50%;
-    left: 50%;
+    /* top: 50%; */
+    /* left: 50%; */
     /* transform: translate(-50%, -100%); */
     height: 2em;
     border-radius: 1em;
+    position: relative;
 }
 
 .progressbar{
@@ -37,12 +39,12 @@
     font-size: .75rem;
     gap: .5rem;
     grid-auto-flow: column;
-    height: -moz-max-content;
     height: max-content;
     width: 100%;
     /* transition: opacity .125s; */
     justify-content: space-around;
     margin-bottom: 1rem;
+    align-self: start;
 }
 
 .option{
@@ -67,10 +69,13 @@ header{
     box-sizing: border-box;
     grid-template-columns: auto 1fr;
     line-height: 2.3rem;
+    margin-top: 30px;
 }
 
 main{
+    display: grid;
     box-sizing: border-box;
+    height:100%;
 }
 
 .container{
@@ -114,7 +119,7 @@ main{
     border-radius: .5rem;
     background-color:#000000;
     margin: .5rem 0;
-    opacity: 0.5;
+    opacity: 0.2;
 }
 
 .last-element{
@@ -136,3 +141,7 @@ main{
     grid-template-rows: auto 1fr auto;
     width: 100%;
 } */
+
+.main-content{
+    
+}
