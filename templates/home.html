@@ -129,12 +129,7 @@
                         percentage.innerHTML = completion + "%";
                         // console.log(completion)
 
-                        if (smoothCompletion > 5){
-                            progressBar.style.width = smoothCompletion + "%";
-                        }
-                        else{
-                            progressBar.style.width = 5 + "%";
-                        }
+                        progressBar.style.width = smoothCompletion*0.95+5 + "%";
 
                         document.getElementById("time-left-text").innerHTML = toMinSec(timeleft);
                         document.getElementById("time-left-text").classList.remove("invisible");
