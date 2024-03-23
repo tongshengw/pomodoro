@@ -57,6 +57,7 @@
     <!-- <div style="height: 4rem;"></div> -->
 
     <div class="main-content">
+        <div class="info invisible" id="time-left-text">15m 59s</div>
         <div class="progressbar-container">
             <div class="progressbar">
                 <span id="percentage">0%</span>
@@ -76,8 +77,10 @@
 {%endblock%}
 
 {%block script%}
-    <script>
-        var time = 1;
+    <script type="module">
+        import {toMinSec} from '../static/helpers.js';
+
+        var time = 1000;
         var timeleft = time;
         var progressBar = document.getElementsByClassName("progressbar")[0];
         var started = false;
@@ -91,7 +94,7 @@
 
             var x = setInterval(function() {
                 if (started == true && timeleft > 0) {
-
+                    
                     timeleft -= 0.05;
 
                     var percentage = document.getElementById("percentage");
@@ -101,13 +104,17 @@
 
                     // completion is from 0-100 and is the percentage completion of the progress bar
                     percentage.innerHTML = completion + "%";
-                    console.log(completion)
+                    // console.log(completion)
+
                     if (smoothCompletion > 5){
                         progressBar.style.width = smoothCompletion + "%";
                     }
                     else{
-                        progressBar.style.width = 5 + "%"
+                        progressBar.style.width = 5 + "%";
                     }
+
+                    document.getElementById("time-left-text").innerHTML = toMinSec(timeleft);
+                    document.getElementById("time-left-text").classList.remove("invisible");
                         
                     if (timeleft <= 0) {
                         clearInterval(x);

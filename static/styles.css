@@ -5,6 +5,7 @@
     --cg2: #96d0ff;
     --cg3: #babfc4;
     --cg4:#000000;
+    --radius: 0.5rem;
   }
 
 .progressbar-container{
@@ -20,7 +21,7 @@
 
 .progressbar{
     background-color: var(--cg2);
-    width:6%;
+    width:5%;
     height: 2em;
     border-radius: 1em;
     display: flex;
@@ -92,7 +93,7 @@ main{
     box-sizing: border-box;
     grid-auto-flow: column;
     background-color: var(--cg3);
-    border-radius: .5em;
+    border-radius: var(--radius);
     line-height: 1rem;
 }
 
@@ -123,9 +124,38 @@ main{
 }
 
 .invisible{
-    visibility: hidden;
+    opacity: 0;
 }
 
 .removed{
     display: none;
+    opacity: 0;
+}
+
+.info{
+    text-indent: 1rem;
+    transition: opacity 1s ease;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.button1{
+    border-radius: var(--radius);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    gap: .5em;
+    appearance: none;
+    border: none;
+    background-color: var(--cg1);
+    transition: background-color .2s ease;
+}
+
+.button1:hover{
+    background-color:var(--cg2);
+    transition: background-color .2s ease;
 }
