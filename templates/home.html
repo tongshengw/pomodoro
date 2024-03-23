@@ -64,7 +64,7 @@
         </div>
 
         <div>
-            <button id = "startButton">Start Focus</button> <button id="pauseButton">Pause</button>
+            <button id = "startButton" class = "button1">Start Focus</button> <button id="pauseButton" class = "button1 removed">Pause</button>
         </div>
 
     </div>
@@ -82,8 +82,13 @@
         var progressBar = document.getElementsByClassName("progressbar")[0];
         var started = false;
         var startButton = document.getElementById("startButton");
+        var pauseButton = document.getElementById("pauseButton");
+
         startButton.addEventListener("click", function(){
             started = true;
+            startButton.classList.add("removed")
+            pauseButton.classList.remove("removed")
+
             var x = setInterval(function() {
                 if (started == true && timeleft > 0) {
 
@@ -112,9 +117,10 @@
             },50);
         });
         
-        var pauseButton = document.getElementById("pauseButton");
         pauseButton.addEventListener("click", function() {
             started = false;
+            startButton.classList.remove("removed")
+            pauseButton.classList.add("removed")
         });
     </script>
 {%endblock%}
