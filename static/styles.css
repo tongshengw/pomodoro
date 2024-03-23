@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&display=swap');
 
 :root {
-    --cg1: #DCDEE6;
-    --cg2: #96d0ff;
+    --cg1: #e4e7f1;
+    --cg2: #78b4e6;
     --cg3: #babfc4;
     --cg4:#000000;
     --radius: 0.5rem;
@@ -56,6 +56,7 @@ body{
     margin: 0;
     justify-items: center;
     box-sizing: border-box;
+    cursor: default;
 }
 
 header{
@@ -71,6 +72,10 @@ main{
     display: grid;
     box-sizing: border-box;
     height:100%;
+}
+
+button{
+    cursor: pointer;
 }
 
 .container{
@@ -158,4 +163,23 @@ main{
 .button1:hover{
     background-color:var(--cg2);
     transition: background-color .2s ease;
+}
+
+.empty-button{
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    outline: inherit;
+}
+
+.option-button:hover{
+    color:black;
+    opacity: 0.6;
+}
+
+.selected-button{
+    color:var(--cg2);
 }

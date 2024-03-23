@@ -7,52 +7,73 @@
     
     <div class="options-bar">
         <div class="row">
-
+    
             <div class="option">Focus</div>
             <div class="time-options">
+                
                 <div class="text-button">
-                    <span>15</span>
+                    <button class="empty-button option-button">
+                        <span>15</span>
+                    </button>
                 </div>
+                
                 <div class="text-button">
-                    <span>20</span>
+                    <button class="empty-button option-button">
+                        <span>20</span>
+                    </button>
                 </div>
                 <div class="text-button last-element">
-                    <span>25</span>
+                    <button class="empty-button option-button">
+                        <span>25</span>
+                    </button>
                 </div>
             </div>
-
+    
             <div class="spacer"></div>
-
+    
             <div class="option first-element">Rest</div>
             <div class="time-options">
                 <div class="text-button">
-                    <span>5</span>
+                    <button class="empty-button option-button">
+                        <span>5</span>
+                    </button>
                 </div>
                 <div class="text-button">
-                    <span>7</span>
+                    <button class="empty-button option-button">
+                        <span>7</span>
+                    </button>
                 </div>
                 <div class="text-button last-element">
-                    <span>10</span>
+                    <button class="empty-button option-button">
+                        <span>10</span>
+                    </button>
                 </div>
-
+            </div>
+    
             <div class="spacer"></div>
-
+    
             <div class="option first-element">Sessions</div>
             <div class="time-options">
                 <div class="text-button">
-                    <span>1</span>
+                    <button class="empty-button option-button">
+                        <span>1</span>
+                    </button>
                 </div>
                 <div class="text-button">
-                    <span>2</span>
+                    <button class="empty-button option-button">
+                        <span>2</span>
+                    </button>
                 </div>
                 <div class="text-button">
-                    <span>3</span>
+                    <button class="empty-button option-button">
+                        <span>3</span>
+                    </button>
                 </div>
             </div>
-
-            </div>
+    
         </div>
     </div>
+    
 
     <!-- <div style="height: 4rem;"></div> -->
 
@@ -80,48 +101,51 @@
     <script type="module">
         import {toMinSec} from '../static/helpers.js';
 
-        var time = 1000;
+        var time = 130;
         var timeleft = time;
         var progressBar = document.getElementsByClassName("progressbar")[0];
         var started = false;
         var startButton = document.getElementById("startButton");
         var pauseButton = document.getElementById("pauseButton");
-
+        
+        var listenerAdded = false;
         startButton.addEventListener("click", function(){
             started = true;
             startButton.classList.add("removed")
             pauseButton.classList.remove("removed")
-
-            var x = setInterval(function() {
-                if (started == true && timeleft > 0) {
+            if (listenerAdded == false) {
+                listenerAdded = true;
+                var x = setInterval(function() {
+                    if (started == true && timeleft > 0) {
                     
-                    timeleft -= 0.05;
+                        timeleft -= 0.05;
 
-                    var percentage = document.getElementById("percentage");
+                        var percentage = document.getElementById("percentage");
 
-                    var smoothCompletion = ((1-timeleft/time) *100);
-                    var completion = Math.round(smoothCompletion);
+                        var smoothCompletion = ((1-timeleft/time) *100);
+                        var completion = Math.round(smoothCompletion);
 
-                    // completion is from 0-100 and is the percentage completion of the progress bar
-                    percentage.innerHTML = completion + "%";
-                    // console.log(completion)
+                        // completion is from 0-100 and is the percentage completion of the progress bar
+                        percentage.innerHTML = completion + "%";
+                        // console.log(completion)
 
-                    if (smoothCompletion > 5){
-                        progressBar.style.width = smoothCompletion + "%";
+                        if (smoothCompletion > 5){
+                            progressBar.style.width = smoothCompletion + "%";
+                        }
+                        else{
+                            progressBar.style.width = 5 + "%";
+                        }
+
+                        document.getElementById("time-left-text").innerHTML = toMinSec(timeleft);
+                        document.getElementById("time-left-text").classList.remove("invisible");
+                            
+                        if (timeleft <= 0) {
+                            clearInterval(x);
+                        }
                     }
-                    else{
-                        progressBar.style.width = 5 + "%";
-                    }
-
-                    document.getElementById("time-left-text").innerHTML = toMinSec(timeleft);
-                    document.getElementById("time-left-text").classList.remove("invisible");
-                        
-                    if (timeleft <= 0) {
-                        clearInterval(x);
-                    }
-                }
-                
-            },50);
+                },50);
+            }
+            
         });
         
         pauseButton.addEventListener("click", function() {
