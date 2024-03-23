@@ -62,6 +62,11 @@
                 <span id="percentage">0%</span>
             </div>
         </div>
+
+        <div>
+            <button id = "startButton">Start Focus</button> <button id="pauseButton">Pause</button>
+        </div>
+
     </div>
 
 </main>
@@ -75,28 +80,41 @@
         var time = 1;
         var timeleft = time;
         var progressBar = document.getElementsByClassName("progressbar")[0];
-        var x = setInterval(function() {
+        var started = false;
+        var startButton = document.getElementById("startButton");
+        startButton.addEventListener("click", function(){
+            started = true;
+            var x = setInterval(function() {
+                if (started == true && timeleft > 0) {
 
-            timeleft -= 0.05;
+                    timeleft -= 0.05;
 
-            var percentage = document.getElementById("percentage");
-            
-            var smoothCompletion = ((1-timeleft/time) *100);
-            var completion = Math.round(smoothCompletion);
+                    var percentage = document.getElementById("percentage");
 
-            // completion is from 0-100 and is the percentage completion of the progress bar
-            percentage.innerHTML = completion + "%";
-            console.log(completion)
-            if (smoothCompletion > 5){
-                progressBar.style.width = smoothCompletion + "%";
-            }
-            else{
-                progressBar.style.width = 5 + "%"
-            }
+                    var smoothCompletion = ((1-timeleft/time) *100);
+                    var completion = Math.round(smoothCompletion);
+
+                    // completion is from 0-100 and is the percentage completion of the progress bar
+                    percentage.innerHTML = completion + "%";
+                    console.log(completion)
+                    if (smoothCompletion > 5){
+                        progressBar.style.width = smoothCompletion + "%";
+                    }
+                    else{
+                        progressBar.style.width = 5 + "%"
+                    }
+                        
+                    if (timeleft <= 0) {
+                        clearInterval(x);
+                    }
+                }
                 
-            if (timeleft <= 0) {
-                clearInterval(x);
-            }
-        },50);
+            },50);
+        });
+        
+        var pauseButton = document.getElementById("pauseButton");
+        pauseButton.addEventListener("click", function() {
+            started = false;
+        });
     </script>
 {%endblock%}
