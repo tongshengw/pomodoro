@@ -178,6 +178,10 @@ button{
 .option-button:hover{
     color:black;
     opacity: 0.6;
+    transition: opacity .2s ease;
+}
+.option-button{
+    transition: opacity .2s ease;
 }
 
 .selected-button{
