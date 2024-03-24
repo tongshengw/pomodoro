@@ -13,4 +13,10 @@ Session(app)
 
 @app.route('/')
 def home():
-    return render_template("home.html")
+    focusTimes = [15,20,25]
+    restTimes = [5, 7, 10]
+    sessionCounts = [1, 2, 3]
+    countFocusTimes = len(focusTimes)
+    countRestTimes = len(focusTimes)
+    countSessionCounts = len(sessionCounts)
+    return render_template("home.html", focusTimes = focusTimes, restTimes = restTimes, sessionCounts = sessionCounts, countFocusTimes = countFocusTimes, countRestTimes = countRestTimes, countSessionCounts = countSessionCounts)

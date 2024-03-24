@@ -10,65 +10,49 @@
     
             <div class="option">Focus</div>
             <div class="time-options">
-                
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>15</span>
-                    </button>
-                </div>
-                
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>20</span>
-                    </button>
-                </div>
-                <div class="text-button last-element">
-                    <button class="empty-button option-button">
-                        <span>25</span>
-                    </button>
-                </div>
+
+                {%for i in range(countFocusTimes)%}
+                    {%if i == countFocusTimes -1%}
+                        <div class="text-button last-element">
+                    {%else%}
+                        <div class="text-button">
+                    {%endif%}    
+                            <button class="empty-button option-button">
+                            <span>{{focusTimes[i]}}</span>
+                        </button>
+                    </div>
+                {%endfor%}
+
             </div>
     
             <div class="spacer"></div>
     
             <div class="option first-element">Rest</div>
             <div class="time-options">
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>5</span>
-                    </button>
-                </div>
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>7</span>
-                    </button>
-                </div>
-                <div class="text-button last-element">
-                    <button class="empty-button option-button">
-                        <span>10</span>
-                    </button>
-                </div>
+                {%for i in range(countRestTimes)%}
+                    {%if i == countRestTimes -1%}
+                        <div class="text-button last-element">
+                    {%else%}
+                        <div class="text-button">
+                    {%endif%}    
+                            <button class="empty-button option-button">
+                            <span>{{restTimes[i]}}</span>
+                        </button>
+                    </div>
+                {%endfor%}
             </div>
     
             <div class="spacer"></div>
     
             <div class="option first-element">Sessions</div>
             <div class="time-options">
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>1</span>
-                    </button>
-                </div>
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>2</span>
-                    </button>
-                </div>
-                <div class="text-button">
-                    <button class="empty-button option-button">
-                        <span>3</span>
-                    </button>
-                </div>
+                {%for i in range(countSessionCounts)%}
+                    <div class="text-button">
+                        <button class="empty-button option-button">
+                        <span>{{sessionCounts[i]}}</span>
+                        </button>
+                    </div>
+                {%endfor%}
             </div>
     
         </div>
@@ -148,5 +132,7 @@
             startButton.classList.remove("removed")
             pauseButton.classList.add("removed")
         });
+
+
     </script>
 {%endblock%}
