@@ -19,4 +19,5 @@ def home():
     countFocusTimes = len(focusTimes)
     countRestTimes = len(focusTimes)
     countSessionCounts = len(sessionCounts)
+    
     return render_template("home.html", focusTimes = focusTimes, restTimes = restTimes, sessionCounts = sessionCounts, countFocusTimes = countFocusTimes, countRestTimes = countRestTimes, countSessionCounts = countSessionCounts)

@@ -65,7 +65,7 @@ header{
     box-sizing: border-box;
     grid-template-columns: auto 1fr;
     line-height: 2.3rem;
-    margin-top: 30px;
+    /* margin-top: 30px; */
 }
 
 main{

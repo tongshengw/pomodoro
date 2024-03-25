@@ -83,54 +83,38 @@
 
 {%block script%}
     <script type="module">
-        import {toMinSec} from '../static/helpers.js';
+        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro} from '../static/helpers.js';
 
-        var time = 130;
-        var timeleft = time;
-        var progressBar = document.getElementsByClassName("progressbar")[0];
+        var time = 5;
+        var restTime = 3;
+        var cycles = 3;
+        var stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0}
         var started = false;
-        var startButton = document.getElementById("startButton");
-        var pauseButton = document.getElementById("pauseButton");
-        
-        var listenerAdded = false;
-        startButton.addEventListener("click", function(){
+
+        startButton.addEventListener("click", async function() {
+            console.log("async function started")
             started = true;
-            startButton.classList.add("removed")
-            pauseButton.classList.remove("removed")
-            if (listenerAdded == false) {
-                listenerAdded = true;
-                var x = setInterval(function() {
-                    if (started == true && timeleft > 0) {
-                    
-                        timeleft -= 0.05;
-
-                        var percentage = document.getElementById("percentage");
-
-                        var smoothCompletion = ((1-timeleft/time) *100);
-                        var completion = Math.round(smoothCompletion);
-
-                        // completion is from 0-100 and is the percentage completion of the progress bar
-                        percentage.innerHTML = completion + "%";
-                        // console.log(completion)
-
-                        progressBar.style.width = smoothCompletion*0.95+5 + "%";
-
-                        document.getElementById("time-left-text").innerHTML = toMinSec(timeleft);
-                        document.getElementById("time-left-text").classList.remove("invisible");
-                            
-                        if (timeleft <= 0) {
-                            clearInterval(x);
-                        }
-                    }
-                },50);
+            while (started && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
+                if (stats.timerType == 0) {
+                    console.log("focus start")
+                    await startPomedoro(stats);
+                }
+                else {
+                    console.log("rest start")
+                    await startPomedoro(stats);
+                }
             }
-            
+            if (stats.focusCompleted == stats.cycles || stats.restCompleted == stats.cycles) {
+                console.log("cycle complete")
+            }
+            else {
+                console.log("cycle paused")
+            }
         });
         
         pauseButton.addEventListener("click", function() {
             started = false;
-            startButton.classList.remove("removed")
-            pauseButton.classList.add("removed")
+            pausePomedoro()
         });
 
 
