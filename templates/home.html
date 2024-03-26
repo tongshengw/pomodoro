@@ -113,12 +113,15 @@
                 console.log("cycle paused")
             }
         });
-        
+
+        // pause button
         pauseButton.addEventListener("click", function() {
             started = false;
             pausePomedoro()
         });
 
+
+        // option bar functionality
         let focusButtons = document.getElementsByClassName("focus-times")
         Array.from(focusButtons).forEach(element => {
             element.addEventListener("click", function() {
