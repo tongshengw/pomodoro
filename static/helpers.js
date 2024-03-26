@@ -91,7 +91,7 @@ function pausePomedoro() {
 }
 
 function endPomedoro() {
-
+    console.log("endPomedoro")
 }
 
 export {toMinSec, startPomedoro, pausePomedoro, endPomedoro}

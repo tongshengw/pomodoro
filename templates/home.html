@@ -17,7 +17,7 @@
                     {%else%}
                         <div class="text-button">
                     {%endif%}    
-                            <button class="empty-button option-button">
+                            <button class="empty-button option-button focus-times" id="{{focusTimes[i]}}">
                             <span>{{focusTimes[i]}}</span>
                         </button>
                     </div>
@@ -35,7 +35,7 @@
                     {%else%}
                         <div class="text-button">
                     {%endif%}    
-                            <button class="empty-button option-button">
+                            <button class="empty-button option-button rest-times" id = "{{restTimes[i]}}">
                             <span>{{restTimes[i]}}</span>
                         </button>
                     </div>
@@ -48,7 +48,7 @@
             <div class="time-options">
                 {%for i in range(countSessionCounts)%}
                     <div class="text-button">
-                        <button class="empty-button option-button">
+                        <button class="empty-button option-button session-counts" id="{{sessionCounts[i]}}">
                         <span>{{sessionCounts[i]}}</span>
                         </button>
                     </div>
@@ -85,11 +85,12 @@
     <script type="module">
         import {toMinSec, startPomedoro, pausePomedoro, endPomedoro} from '../static/helpers.js';
 
-        var time = 5;
-        var restTime = 3;
-        var cycles = 3;
-        var stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0}
-        var started = false;
+        // soon to be deprecated
+        let time = 2;
+        let restTime = 1;
+        let cycles = 2;
+        let stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0}
+        let started = false;
 
         startButton.addEventListener("click", async function() {
             console.log("async function started")
@@ -104,8 +105,9 @@
                     await startPomedoro(stats);
                 }
             }
-            if (stats.focusCompleted == stats.cycles || stats.restCompleted == stats.cycles) {
+            if (stats.focusCompleted == stats.cycles && stats.restCompleted == stats.cycles) {
                 console.log("cycle complete")
+                endPomedoro()
             }
             else {
                 console.log("cycle paused")
@@ -115,6 +117,49 @@
         pauseButton.addEventListener("click", function() {
             started = false;
             pausePomedoro()
+        });
+
+        let focusButtons = document.getElementsByClassName("focus-times")
+        Array.from(focusButtons).forEach(element => {
+            element.addEventListener("click", function() {
+                if (started === false) {
+                    Array.from(focusButtons).forEach(element => {
+                        element.classList.remove("selected-button")
+                    });
+                    console.log(element.id);
+                    stats.time = element.id * 60
+                    stats.timeLeft = stats.time
+                    element.classList.add("selected-button")
+                }
+            });
+        });
+
+        let restButtons = document.getElementsByClassName("rest-times")
+        Array.from(restButtons).forEach(element => {
+            element.addEventListener("click", function() {
+                if (started === false) {
+                    Array.from(restButtons).forEach(element => {
+                        element.classList.remove("selected-button")
+                    });
+                    console.log(element.id);
+                    stats.restTime = element.id * 60
+                    element.classList.add("selected-button")
+                }
+            });
+        });
+
+        let sessionButtons = document.getElementsByClassName("session-counts")
+        Array.from(sessionButtons).forEach(element => {
+            element.addEventListener("click", function() {
+                if (started === false) {
+                    Array.from(sessionButtons).forEach(element => {
+                        element.classList.remove("selected-button")
+                    });
+                    console.log(element.id);
+                    stats.cycles = element.id
+                    element.classList.add("selected-button")
+                }
+            });
         });
 
 
