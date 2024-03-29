@@ -86,12 +86,28 @@ function startPomedoro(stats) {
 
 function pausePomedoro() {
     isPaused = true;
-    startButton.classList.remove("removed")
-    pauseButton.classList.add("removed")
+    startButton.classList.remove("removed");
+    pauseButton.classList.add("removed");
 }
 
 function endPomedoro() {
-    console.log("endPomedoro")
+    console.log("endPomedoro");
 }
 
-export {toMinSec, startPomedoro, pausePomedoro, endPomedoro}
+async function loadSettings() {
+    let request = await fetch("api/request-settings");
+    let settings = await request.json();
+
+    let focus = settings[0]["focus_time"];
+    let rest = settings[0]["rest_time"];
+    let sessions = settings[0]["session_count"];
+
+    document.getElementById(focus + "-focus").classList.add("selected-button");
+    document.getElementById(rest + "-rest").classList.add("selected-button");
+    document.getElementById(sessions + "-sessions").classList.add("selected-button");
+
+    return {focus:focus, rest:rest, sessions:sessions};
+
+}
+
+export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings}

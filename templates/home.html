@@ -17,7 +17,7 @@
                     {%else%}
                         <div class="text-button">
                     {%endif%}    
-                            <button class="empty-button option-button focus-times" id="{{focusTimes[i]}}">
+                            <button class="empty-button option-button focus-times" id="{{focusTimes[i]}}-focus">
                             <span>{{focusTimes[i]}}</span>
                         </button>
                     </div>
@@ -35,7 +35,7 @@
                     {%else%}
                         <div class="text-button">
                     {%endif%}    
-                            <button class="empty-button option-button rest-times" id = "{{restTimes[i]}}">
+                            <button class="empty-button option-button rest-times" id = "{{restTimes[i]}}-rest">
                             <span>{{restTimes[i]}}</span>
                         </button>
                     </div>
@@ -48,7 +48,7 @@
             <div class="time-options">
                 {%for i in range(countSessionCounts)%}
                     <div class="text-button">
-                        <button class="empty-button option-button session-counts" id="{{sessionCounts[i]}}">
+                        <button class="empty-button option-button session-counts" id="{{sessionCounts[i]}}-sessions">
                         <span>{{sessionCounts[i]}}</span>
                         </button>
                     </div>
@@ -83,17 +83,21 @@
 
 {%block script%}
     <script type="module">
-        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro} from '../static/helpers.js';
+        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings} from '../static/helpers.js';
 
         // TODO: modify this to use cookies to save a player's default
-        async function loadSettings() {
-            
-        }
-
-
+        
         let time = 2;
         let restTime = 1;
         let cycles = 2;
+
+        let settings = await loadSettings()
+
+        time = settings["focus"]*60
+        restTime = settings["rest"]*60
+        cycles = settings["sessions"]
+        console.log(settings)
+        
         let stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0}
         let started = false;
 
