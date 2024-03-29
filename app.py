@@ -1,9 +1,11 @@
 import os
 import sqlite3
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from helpers import db_execute
 
 from config import SECRET_KEY
 
@@ -36,13 +38,23 @@ def home():
 
         c.execute("INSERT INTO settings (user_id, focus_time, rest_time, session_count) VALUES (?,?,?,?)", (id, 15, 5, 1))
 
+        session["user_id"] = id
+
         db.commit()
 
         db.close()
+
+    print("user_id:")
+    print(session["user_id"])
 
     return render_template("home.html", focusTimes = focusTimes, restTimes = restTimes, sessionCounts = sessionCounts, countFocusTimes = countFocusTimes, countRestTimes = countRestTimes, countSessionCounts = countSessionCounts)
 
 #TODO - create js code to fetch user setting data from this route and change optionbar button colour accordingly, make js code to create a post request to this route in order to change settings. remember to add something to check for current settings and change css and js right after page load.
 @app.route('/api/request-settings', methods=["GET", "POST"])
 def settings():
-    pass
+    if request.method == "GET":
+        settings = db_execute("SELECT * FROM settings WHERE user_id = ?", (session["user_id"],))
+        return settings
+    
+    else:
+        pass
