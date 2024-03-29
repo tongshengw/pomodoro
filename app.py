@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import json
 
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -54,8 +55,10 @@ def home():
 def settings():
     if request.method == "GET":
         settings = db_execute("SELECT * FROM settings WHERE user_id = ?", (session["user_id"],))
-        return settings
+        return jsonify(settings)
     
     else:
-        changed = request.get_json()
-        return changed
+        json = request.get_json()
+        print(json)
+        db_execute("UPDATE settings SET focus_time = ?, rest_time = ?, session_count = ? WHERE user_id = ?", (json["time"]/60, json["restTime"]/60, json["cycles"], session["user_id"]))
+        return json
