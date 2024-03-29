@@ -95,12 +95,12 @@ function endPomedoro() {
 }
 
 async function loadSettings() {
-    let request = await fetch("api/request-settings");
-    let settings = await request.json();
+    const request = await fetch("api/request-settings");
+    const settings = await request.json();
 
-    let focus = settings[0]["focus_time"];
-    let rest = settings[0]["rest_time"];
-    let sessions = settings[0]["session_count"];
+    const focus = settings[0]["focus_time"];
+    const rest = settings[0]["rest_time"];
+    const sessions = settings[0]["session_count"];
 
     document.getElementById(focus + "-focus").classList.add("selected-button");
     document.getElementById(rest + "-rest").classList.add("selected-button");
@@ -110,4 +110,16 @@ async function loadSettings() {
 
 }
 
-export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings}
+async function sendSettings(stats) {
+    try {
+        const response = await fetch("api/request-settings", {method: "POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify(stats),});
+
+        const result = await response.json()
+        console.log("response recieved", result)
+
+    } catch (error) {
+        console.log("sendSettings error")
+    }
+}
+
+export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings}

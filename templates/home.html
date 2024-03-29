@@ -83,7 +83,7 @@
 
 {%block script%}
     <script type="module">
-        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings} from '../static/helpers.js';
+        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings} from '../static/helpers.js';
 
         // TODO: modify this to use cookies to save a player's default
         
@@ -139,9 +139,10 @@
                         element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.time = element.id * 60;
+                    stats.time = element.id.split("-")[0] * 60;
                     stats.timeLeft = stats.time;
                     element.classList.add("selected-button");
+                    sendSettings(stats);
                 }
             });
         });
@@ -154,8 +155,9 @@
                         element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.restTime = element.id * 60;
+                    stats.restTime = element.id.split("-")[0] * 60;
                     element.classList.add("selected-button");
+                    sendSettings(stats);
                 }
             });
         });
@@ -168,8 +170,9 @@
                         element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.cycles = element.id;
+                    stats.cycles = parseInt(element.id.split("-")[0]);
                     element.classList.add("selected-button");
+                    sendSettings(stats);
                 }
             });
         });

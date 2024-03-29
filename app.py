@@ -57,4 +57,5 @@ def settings():
         return settings
     
     else:
-        pass
+        changed = request.get_json()
+        return changed
