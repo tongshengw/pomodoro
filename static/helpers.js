@@ -14,7 +14,7 @@ function toMinSec(time) {
     var seconds = time % 60;
     var minutes = (time - seconds)/60;
 
-    return String(minutes) + "m " + String(seconds) + "s"
+    return String(minutes) + "m " + String(seconds) + "s";
 }
 
 // Where stats.timerType = 0 means a focus session, 1 means a rest session
@@ -22,8 +22,8 @@ function toMinSec(time) {
 function startPomedoro(stats) {
     return new Promise((resolve, reject) => {
 
-        startButton.classList.add("removed")
-        pauseButton.classList.remove("removed")
+        startButton.classList.add("removed");
+        pauseButton.classList.remove("removed");
 
         isPaused = false;
 
@@ -37,9 +37,9 @@ function startPomedoro(stats) {
 
         counterInterval = setInterval(function() {
             if (isPaused) {
-                console.log("startpomedoro promise resolved")
+                console.log("startpomedoro promise resolved");
                 clearInterval(counterInterval);
-                resolve()
+                resolve();
             }
             
             else if (stats.timeLeft > 0) {
@@ -50,7 +50,7 @@ function startPomedoro(stats) {
                 // console.log(stats.timeLeft);
                 let completion = Math.floor(smoothCompletion);
 
-                completion = Math.min(100, completion)
+                completion = Math.min(100, completion);
 
                 // completion is from 0-100 and is the percentage completion of the progress bar
                 percentage.innerHTML = completion + "%";
@@ -67,11 +67,11 @@ function startPomedoro(stats) {
                 clearInterval(counterInterval);
 
                 if (stats.timerType == 0) {
-                    stats.focusCompleted += 1
+                    stats.focusCompleted += 1;
                     stats.timeLeft = stats.restTime;
                 }
                 else {
-                    stats.restCompleted += 1
+                    stats.restCompleted += 1;
                     stats.timeLeft = stats.time;
                 }
 

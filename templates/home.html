@@ -91,22 +91,22 @@
         let restTime = 1;
         let cycles = 2;
 
-        let settings = await loadSettings()
+        let settings = await loadSettings();
 
-        time = settings["focus"]*60
-        restTime = settings["rest"]*60
-        cycles = settings["sessions"]
-        console.log(settings)
+        time = settings["focus"]*60;
+        restTime = settings["rest"]*60;
+        cycles = settings["sessions"];
+        console.log(settings);
         
-        let stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0}
+        let stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0};
         let started = false;
 
         startButton.addEventListener("click", async function() {
-            console.log("async function started")
+            console.log("async function started");
             started = true;
             while (started && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
                 if (stats.timerType == 0) {
-                    console.log("focus start")
+                    console.log("focus start");
                     await startPomedoro(stats);
                 }
                 else {
@@ -115,18 +115,18 @@
                 }
             }
             if (stats.focusCompleted == stats.cycles && stats.restCompleted == stats.cycles) {
-                console.log("cycle complete")
-                endPomedoro()
+                console.log("cycle complete");
+                endPomedoro();
             }
             else {
-                console.log("cycle paused")
+                console.log("cycle paused");
             }
         });
 
         // pause button
         pauseButton.addEventListener("click", function() {
             started = false;
-            pausePomedoro()
+            pausePomedoro();
         });
 
 
@@ -136,12 +136,12 @@
             element.addEventListener("click", function() {
                 if (started === false) {
                     Array.from(focusButtons).forEach(element => {
-                        element.classList.remove("selected-button")
+                        element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.time = element.id * 60
-                    stats.timeLeft = stats.time
-                    element.classList.add("selected-button")
+                    stats.time = element.id * 60;
+                    stats.timeLeft = stats.time;
+                    element.classList.add("selected-button");
                 }
             });
         });
@@ -151,11 +151,11 @@
             element.addEventListener("click", function() {
                 if (started === false) {
                     Array.from(restButtons).forEach(element => {
-                        element.classList.remove("selected-button")
+                        element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.restTime = element.id * 60
-                    element.classList.add("selected-button")
+                    stats.restTime = element.id * 60;
+                    element.classList.add("selected-button");
                 }
             });
         });
@@ -165,11 +165,11 @@
             element.addEventListener("click", function() {
                 if (started === false) {
                     Array.from(sessionButtons).forEach(element => {
-                        element.classList.remove("selected-button")
+                        element.classList.remove("selected-button");
                     });
                     console.log(element.id);
-                    stats.cycles = element.id
-                    element.classList.add("selected-button")
+                    stats.cycles = element.id;
+                    element.classList.add("selected-button");
                 }
             });
         });
