@@ -255,4 +255,5 @@ button{
 .right-nav{
     display: flex;
     justify-content: flex-end;
+    gap:.5rem;
 }

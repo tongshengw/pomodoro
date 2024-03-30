@@ -22,11 +22,23 @@
                         <a href = "/" class="nav-element">
                             <div class="text">friends</div>
                         </a>
-                        <div class="right-nav">
-                            <a href = "/login" class="nav-element">
-                                <div class="text">login</div>
-                            </a>
-                        </div>
+                        {% if session["username"] %}
+                            <div class="right-nav">
+                                <a href = "/logout" class="nav-element">
+                                    <div class="text">login</div>
+                                </a>
+                            </div>
+                        {%else%}
+                            <div class="right-nav">
+                                <a href = "/register" class="nav-element">
+                                    <div class="text">register</div>
+                                </a>
+                                <a href = "/login" class="nav-element">
+                                    <div class="text">login</div>
+                                </a>
+                            </div>
+
+                        {%endif%}
                     </div>
                 </header>
                 {%block body%}{%endblock%}
