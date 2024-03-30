@@ -51,7 +51,7 @@ def home():
     return render_template("home.html", focusTimes = focusTimes, restTimes = restTimes, sessionCounts = sessionCounts, countFocusTimes = countFocusTimes, countRestTimes = countRestTimes, countSessionCounts = countSessionCounts)
 
 #TODO - create js code to fetch user setting data from this route and change optionbar button colour accordingly, make js code to create a post request to this route in order to change settings. remember to add something to check for current settings and change css and js right after page load.
-@app.route('/api/request-settings', methods=["GET", "POST"])
+@app.route("/api/request-settings", methods=["GET", "POST"])
 def settings():
     if request.method == "GET":
         settings = db_execute("SELECT * FROM settings WHERE user_id = ?", (session["user_id"],))
@@ -62,3 +62,7 @@ def settings():
         print(json)
         db_execute("UPDATE settings SET focus_time = ?, rest_time = ?, session_count = ? WHERE user_id = ?", (json["time"]/60, json["restTime"]/60, json["cycles"], session["user_id"]))
         return json
+    
+@app.route("/login")
+def login():
+    return(render_template("login.html"))

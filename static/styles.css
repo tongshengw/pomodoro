@@ -10,7 +10,7 @@
 
 .progressbar-container{
     background-color: var(--cg1);
-    width: 60vw;
+    /* width: 60vw; */
     min-width: 100%;
     margin: auto;
     height: 2em;
@@ -87,8 +87,11 @@ button{
     min-height: 100vh;
     box-sizing: border-box;
     max-width: 1250px;
+    width:60vw;
     align-items: center;
     padding-top: 32px;
+
+    
 }
 
 .row{
@@ -158,6 +161,11 @@ button{
     border: none;
     background-color: var(--cg1);
     transition: background-color .2s ease;
+
+    font-family: "Fragment Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
 }
 
 .button1:hover{
@@ -186,4 +194,51 @@ button{
 
 .selected-button{
     color:var(--cg2);
+}
+
+
+.login-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height:100%
+}
+
+.login{
+    display: grid;
+    gap:0.5rem;
+    justify-content: center;
+    grid-template-columns: 1fr;
+}
+
+.login-form{
+    display: grid;
+    gap:0.5rem;
+}
+
+.text-input{
+    padding: 1em;
+    outline:none;
+    border:solid white;
+    border-radius: var(--radius);
+    width:18rem;
+    background-color: var(--cg3);
+
+    font-family: "Fragment Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+
+    caret-color: var(--cg2);
+}
+.text-input:focus{
+    border: var(--cg2) solid;
+}
+.text-input::selection{
+    background-color: var(--cg2);
+    color: var(--cg1);
+}
+
+.sign-in-button{
+    margin-top: 2rem;
 }
