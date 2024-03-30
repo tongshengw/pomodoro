@@ -165,7 +165,6 @@ button{
     font-family: "Fragment Mono", monospace;
     font-weight: 400;
     font-style: normal;
-    font-size: 1rem;
 }
 
 .button1:hover{
@@ -217,7 +216,7 @@ button{
 }
 
 .text-input{
-    padding: 1em;
+    padding: .8em;
     outline:none;
     border:solid white;
     border-radius: var(--radius);
@@ -241,4 +240,19 @@ button{
 
 .sign-in-button{
     margin-top: 2rem;
+    font-size: 1rem;
+}
+
+.top-nav{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: .5rem;
+    margin-left: 2rem;
+}
+
+.right-nav{
+    display: flex;
+    justify-content: flex-end;
 }
