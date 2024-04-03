@@ -1,3 +1,3 @@
 # pomodoro
 
-this is a minimalist pomedoro timer webapp built with flask and vanilla javascript
+this is a minimalist pomodoro timer webapp built with flask and vanilla javascript

@@ -1,7 +1,7 @@
 import sqlite3
 
 def db_execute(query, tuple):
-    db = sqlite3.connect("pomedoro.db")
+    db = sqlite3.connect("pomodoro.db")
     db.row_factory = sqlite3.Row
     c = db.cursor()
     c.execute(query, tuple)

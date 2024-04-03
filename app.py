@@ -32,7 +32,7 @@ def home():
     
     # if session user id is empty, create a new user in the database.
     if "user_id" not in session.keys():
-        db = sqlite3.connect("pomedoro.db")
+        db = sqlite3.connect("pomodoro.db")
         c = db.cursor()
         print("no saved session")
         c.execute("INSERT INTO users (guest) VALUES (?)", (1,))

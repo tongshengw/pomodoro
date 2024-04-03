@@ -83,7 +83,7 @@
 
 {%block script%}
     <script type="module">
-        import {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings} from '../static/helpers.js';
+        import {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings, sendSettings} from '../static/helpers.js';
 
         // TODO: modify this to use cookies to save a player's default
         
@@ -107,16 +107,16 @@
             while (started && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
                 if (stats.timerType == 0) {
                     console.log("focus start");
-                    await startPomedoro(stats);
+                    await startPomodoro(stats);
                 }
                 else {
                     console.log("rest start")
-                    await startPomedoro(stats);
+                    await startPomodoro(stats);
                 }
             }
             if (stats.focusCompleted == stats.cycles && stats.restCompleted == stats.cycles) {
                 console.log("cycle complete");
-                endPomedoro();
+                endPomodoro();
             }
             else {
                 console.log("cycle paused");
@@ -126,7 +126,7 @@
         // pause button
         pauseButton.addEventListener("click", function() {
             started = false;
-            pausePomedoro();
+            pausePomodoro();
         });
 
 

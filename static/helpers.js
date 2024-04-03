@@ -19,7 +19,7 @@ function toMinSec(time) {
 
 // Where stats.timerType = 0 means a focus session, 1 means a rest session
 // var stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, focusCompleted:0, restCompleted:0, smoothCompletion:0, timeWorked:0, timeRested:0, timeBegin:0}
-function startPomedoro(stats) {
+function startPomodoro(stats) {
     return new Promise((resolve, reject) => {
 
         startButton.classList.add("removed");
@@ -37,7 +37,7 @@ function startPomedoro(stats) {
 
         counterInterval = setInterval(function() {
             if (isPaused) {
-                console.log("startpomedoro promise resolved");
+                console.log("startpomodoro promise resolved");
                 clearInterval(counterInterval);
                 resolve();
             }
@@ -84,14 +84,14 @@ function startPomedoro(stats) {
     });
 }
 
-function pausePomedoro() {
+function pausePomodoro() {
     isPaused = true;
     startButton.classList.remove("removed");
     pauseButton.classList.add("removed");
 }
 
-function endPomedoro() {
-    console.log("endPomedoro");
+function endPomodoro() {
+    console.log("endPomodoro");
 }
 
 async function loadSettings() {
@@ -178,4 +178,4 @@ function checkPass(confirm, pass) {
 }
 
 
-export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings, checkUsername, checkEmail, checkPass}
+export {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings, sendSettings, checkUsername, checkEmail, checkPass}
