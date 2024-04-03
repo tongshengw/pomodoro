@@ -257,3 +257,8 @@ button{
     justify-content: flex-end;
     gap:.5rem;
 }
+
+#submit-button:disabled{
+    opacity: 20;
+    background-color: var(--cg1);
+}

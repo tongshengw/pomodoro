@@ -1,3 +1,4 @@
+
 import os
 import sqlite3
 import json
@@ -69,4 +70,28 @@ def login():
 
 @app.route("/register")
 def register():
-    return(render_template("register.html"))
+    if request.method == "POST":
+        pass
+    
+    else:
+        return(render_template("register.html"))
+    
+@app.route("/api/check-username", methods=["POST"])
+def checkUsername():
+    json = request.get_json()
+    print(json)
+    rows = db_execute("SELECT username FROM users WHERE username = ?",(json["username"],))
+    if len(rows) == 0:
+        return jsonify(False)
+    else:
+        return jsonify(True)
+    
+@app.route("/api/check-email", methods=["POST"])
+def checkUsername():
+    json = request.get_json()
+    print(json)
+    rows = db_execute("SELECT username FROM users WHERE username = ?",(json["username"],))
+    if len(rows) == 0:
+        return jsonify(False)
+    else:
+        return jsonify(True)

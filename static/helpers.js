@@ -114,7 +114,7 @@ async function sendSettings(stats) {
     try {
         const response = await fetch("api/request-settings", {method: "POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify(stats),});
 
-        const result = await response.json()
+        const result = await response.json();
         console.log("response recieved", result)
 
     } catch (error) {
@@ -122,4 +122,48 @@ async function sendSettings(stats) {
     }
 }
 
-export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings}
+async function checkUsername(username, usernameElement, submitButton) {
+    try {
+        const response = await fetch("api/check-username", {method:"POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify({username:username}),});
+
+        const result = await response.json();
+        console.log(result)
+        // false when username is NOT IN database, true when username IS IN database
+        if (result === false) {
+            usernameElement.style.border = ("green solid");
+            submitButton.disabled = false;
+        }
+        else {
+            usernameElement.style.border = ("red solid")
+            submitButton.disabled = true;
+        }
+
+    } catch (error) {
+        console.log("checkUsername error")
+        console.log(error)
+    }
+}
+
+async function checkEmail(email, emailElement, submitButton) {
+    try {
+        const response = await fetch("api/check-email", {method:"POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify({username:username}),});
+
+        const result = await response.json();
+        console.log(result)
+        // false when username is NOT IN database, true when username IS IN database
+        if (result === false) {
+            usernameElement.style.border = ("green solid");
+            submitButton.disabled = false;
+        }
+        else {
+            usernameElement.style.border = ("red solid")
+            submitButton.disabled = true;
+        }
+
+    } catch (error) {
+        console.log("checkUsername error")
+        console.log(error)
+    }
+}
+
+export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings, checkUsername}
