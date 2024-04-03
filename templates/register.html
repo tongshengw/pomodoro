@@ -7,10 +7,10 @@
         <div class="login">
             <div>register</div>
             <form action="/register" method = "post" class = "login-form">
-                <input id = "username" class="text-input" type="text" placeholder="username" autofocus autocomplete="off">
-                <input id = "email" class="text-input" type="email" placeholder="email" autocomplete="email">
-                <input id = "password" class="text-input" type="password" placeholder="password">
-                <input id = "confirm-password" class="text-input" type="password" placeholder="confirm password">
+                <input id = "username" name = "username" class="text-input" type="text" placeholder="username" autofocus autocomplete="off">
+                <input id = "email" name = "email" class="text-input" type="email" placeholder="email" autocomplete="off">
+                <input id = "password" name = "password" class="text-input" type="password" placeholder="password">
+                <input id = "confirm-password" name = "confirm-password" class="text-input" type="password" placeholder="confirm password">
 
                 <button type="submit" class="button1 sign-in-button" id="submit-button">Register</button>
 
@@ -25,13 +25,28 @@
 
 {%block script%}
     <script type="module">
-        import {checkUsername} from '../static/helpers.js';
+        import {checkUsername, checkEmail, checkPass} from '../static/helpers.js';
         let usernameElement = document.getElementById("username");
-        let submitButton = document.getElementById("submit-button")
+        let emailElement = document.getElementById("email");
+        let submitButton = document.getElementById("submit-button");
+        let passwordElement = document.getElementById("password");
+        let confirmPassword = document.getElementById("confirm-password");
+
         usernameElement.addEventListener("input", function() {
             // console.log(usernameElement.value)
-            checkUsername(usernameElement.value, usernameElement, submitButton)
+            checkUsername(usernameElement.value, usernameElement, submitButton);
+        })
 
+        emailElement.addEventListener("input", function() {
+            checkEmail(emailElement.value, emailElement, submitButton);
+        })
+
+        confirmPassword.addEventListener("input", function() {
+            checkPass(confirmPassword, passwordElement, submitButton);
+        })
+
+        passwordElement.addEventListener("input", function() {
+            checkPass(confirmPassword, passwordElement, submitButton);
         })
     </script>
 {%endblock%}

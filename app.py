@@ -2,6 +2,7 @@
 import os
 import sqlite3
 import json
+import re
 
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -68,30 +69,42 @@ def settings():
 def login():
     return(render_template("login.html"))
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        pass
+        username = request.form.get("username")
+        email = request.form.get("email")
+        print("form req pass", request.form.get("password"))
+        hash = generate_password_hash(request.form.get("password"))
+        rows = db_execute("SELECT username, guest FROM users WHERE username = ? ", (username,))
+
+        # TODO: add a check to see if they already registered
+        if len(rows) != 0 or username == "" or request.form.get("password") != request.form.get("confirm-password") or rows[0]["guest"] == 0:
+            return render_template("register.html")
+
+        db_execute("UPDATE users SET username = ?, password_hash = ?, email = ?, guest = 0 WHERE id = ?", (username, hash, email, session["user_id"]))
+        session["username"] = username
+        return redirect("/")
     
     else:
-        return(render_template("register.html"))
+        return render_template("register.html")
     
 @app.route("/api/check-username", methods=["POST"])
 def checkUsername():
     json = request.get_json()
     print(json)
     rows = db_execute("SELECT username FROM users WHERE username = ?",(json["username"],))
-    if len(rows) == 0:
+    if len(rows) == 0 and json["username"] != "":
         return jsonify(False)
     else:
         return jsonify(True)
     
 @app.route("/api/check-email", methods=["POST"])
-def checkUsername():
+def checkEmail():
     json = request.get_json()
     print(json)
-    rows = db_execute("SELECT username FROM users WHERE username = ?",(json["username"],))
-    if len(rows) == 0:
+    rows = db_execute("SELECT email FROM users WHERE email = ?",(json["email"],))
+    if len(rows) == 0 and json["email"] != "" and re.match(r"[^@]+@[^@]+\.[^@]+", json["email"]):
         return jsonify(False)
     else:
         return jsonify(True)

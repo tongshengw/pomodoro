@@ -146,24 +146,36 @@ async function checkUsername(username, usernameElement, submitButton) {
 
 async function checkEmail(email, emailElement, submitButton) {
     try {
-        const response = await fetch("api/check-email", {method:"POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify({username:username}),});
+        const response = await fetch("api/check-email", {method:"POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify({email:email}),});
 
         const result = await response.json();
-        console.log(result)
+        console.log(result);
         // false when username is NOT IN database, true when username IS IN database
         if (result === false) {
-            usernameElement.style.border = ("green solid");
+            emailElement.style.border = ("green solid");
             submitButton.disabled = false;
         }
         else {
-            usernameElement.style.border = ("red solid")
+            emailElement.style.border = ("red solid");
             submitButton.disabled = true;
         }
 
     } catch (error) {
-        console.log("checkUsername error")
-        console.log(error)
+        console.log("checkUsername error");
+        console.log(error);
     }
 }
 
-export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings, checkUsername}
+
+function checkPass(confirm, pass) {
+    if (pass.value === confirm.value) {
+        confirm.style.border = ("green solid")
+        submitButton.disabled = false;
+    } else {
+        confirm.style.border = ("red solid");
+            submitButton.disabled = true;
+    }
+}
+
+
+export {toMinSec, startPomedoro, pausePomedoro, endPomedoro, loadSettings, sendSettings, checkUsername, checkEmail, checkPass}
