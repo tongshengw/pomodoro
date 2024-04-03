@@ -1,4 +1,5 @@
 import sqlite3
+import re
 
 def db_execute(query, tuple):
     db = sqlite3.connect("pomodoro.db")
@@ -14,3 +15,9 @@ def db_execute(query, tuple):
     db.close()
 
     return output
+
+def syncIdUsername(session):
+    if "user_id" in session.keys():
+        rows = db_execute("SELECT username FROM users WHERE id = ?", (session["user_id"],))
+        if len(rows) == 1:
+            session["username"] = rows[0]["username"]

@@ -8,7 +8,7 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import db_execute
+from helpers import db_execute, syncIdUsername
 
 from config import SECRET_KEY
 
@@ -19,6 +19,9 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+@app.before_request
+def load_user():
+    syncIdUsername(session)
 
 
 @app.route("/")
@@ -47,8 +50,12 @@ def home():
 
         db.close()
 
-    print("user_id:")
-    print(session["user_id"])
+    print("userid:", session["user_id"])
+
+    try:
+        print("username: ", session["username"])
+    except:
+        print("no username")
 
     return render_template("home.html", focusTimes = focusTimes, restTimes = restTimes, sessionCounts = sessionCounts, countFocusTimes = countFocusTimes, countRestTimes = countRestTimes, countSessionCounts = countSessionCounts)
 
@@ -65,21 +72,58 @@ def settings():
         db_execute("UPDATE settings SET focus_time = ?, rest_time = ?, session_count = ? WHERE user_id = ?", (json["time"]/60, json["restTime"]/60, json["cycles"], session["user_id"]))
         return json
     
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return(render_template("login.html"))
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return render_template("login.html")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return render_template("login.html")
+
+        # Query database for username
+        rows = db_execute(
+            "SELECT * FROM users WHERE username = ?", (request.form.get("username"),)
+        )
+
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(
+            rows[0]["password_hash"], request.form.get("password")
+        ):
+            return render_template("login.html")
+
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
+        session["username"] = rows[0]["username"]
+
+        # Redirect user to home page
+        return redirect("/")
+
+    else:
+        return(render_template("login.html"))
+    
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form.get("username")
         email = request.form.get("email")
-        print("form req pass", request.form.get("password"))
-        hash = generate_password_hash(request.form.get("password"))
-        rows = db_execute("SELECT username, guest FROM users WHERE username = ? ", (username,))
+        password = request.form.get("password")
+        print("form req pass", password)
+        hash = generate_password_hash(password)
+        rows = db_execute("SELECT username, email FROM users WHERE username = ? ", (username,))
+        rows1 = db_execute("SELECT username, email FROM users WHERE email = ? ", (email,))
+        rows2 = db_execute("SELECT username, guest FROM users WHERE id = ? ", (session["user_id"],))
 
-        # TODO: add a check to see if they already registered
-        if len(rows) != 0 or username == "" or request.form.get("password") != request.form.get("confirm-password") or rows[0]["guest"] == 0:
+        print(rows)
+
+        if len(rows) != 0 or username == "" or request.form.get("password") != request.form.get("confirm-password") or len(rows1) != 0 or rows2[0]["guest"] == 0 or len(username) >= 16 or len(password) >= 1000:
             return render_template("register.html")
 
         db_execute("UPDATE users SET username = ?, password_hash = ?, email = ?, guest = 0 WHERE id = ?", (username, hash, email, session["user_id"]))
