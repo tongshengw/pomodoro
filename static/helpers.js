@@ -29,10 +29,12 @@ function startPomodoro(stats) {
 
         if (stats.timerType == 0) {
             var totalTime = stats.time;
+            var timerTypeText = "Focus"
         }
 
         else {
             var totalTime = stats.restTime;
+            var timerTypeText = "Rest"
         }
 
         counterInterval = setInterval(function() {
@@ -57,7 +59,10 @@ function startPomodoro(stats) {
 
                 progressBar.style.width = smoothCompletion*0.95+5 + "%";
 
-                timeLeftText.innerHTML = toMinSec(stats.timeLeft);
+                let totalCycleText = String(stats.cycles)
+                let currentCycleText = String(stats.focusCompleted)
+
+                timeLeftText.innerHTML = toMinSec(stats.timeLeft) + ",   " + timerTypeText + ",   " + currentCycleText + "/" + totalCycleText + " Cycles";
                 timeLeftText.classList.remove("invisible");
                 }
 
