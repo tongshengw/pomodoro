@@ -1,8 +1,8 @@
-function focusListener() {
+function focusListener(stats, started) {
     let focusButtons = document.getElementsByClassName("focus-times")
     Array.from(focusButtons).forEach(element => {
         element.addEventListener("click", function() {
-            if (started === false) {
+            if (started.value === false) {
                 Array.from(focusButtons).forEach(element => {
                     element.classList.remove("selected-button");
                 });
@@ -16,11 +16,11 @@ function focusListener() {
     });
 }
 
-function restListener() {
+function restListener(stats, started) {
     let restButtons = document.getElementsByClassName("rest-times")
         Array.from(restButtons).forEach(element => {
             element.addEventListener("click", function() {
-                if (started === false) {
+                if (started.value === false) {
                     Array.from(restButtons).forEach(element => {
                         element.classList.remove("selected-button");
                     });
@@ -33,11 +33,11 @@ function restListener() {
         });
 }
 
-function sessionListener() {
+function sessionListener(stats, started) {
     let sessionButtons = document.getElementsByClassName("session-counts")
         Array.from(sessionButtons).forEach(element => {
             element.addEventListener("click", function() {
-                if (started === false) {
+                if (started.value === false) {
                     Array.from(sessionButtons).forEach(element => {
                         element.classList.remove("selected-button");
                     });
@@ -62,4 +62,4 @@ async function sendSettings(stats) {
     }
 }
 
-export{sendSettings, focusListener}
+export{sendSettings, focusListener, restListener, sessionListener}

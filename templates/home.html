@@ -125,12 +125,12 @@
         console.log(settings);
         
         let stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, timerType:0, focusCompleted:0, restCompleted:0, smoothCompletion:0};
-        let started = false;
+        let started = {value:false};
 
         startButton.addEventListener("click", async function() {
             console.log("async function started");
-            started = true;
-            while (started && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
+            started.value = true;
+            while (started.value && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
                 if (stats.timerType == 0) {
                     console.log("focus start");
                     await startPomodoro(stats);
@@ -151,15 +151,15 @@
 
         // pause button
         pauseButton.addEventListener("click", function() {
-            started = false;
+            started.value = false;
             pausePomodoro();
         });
 
 
         // option bar functionality
-        focusListener();
-        restListener();
-        sessionListener();
+        focusListener(stats, started);
+        restListener(stats, started);
+        sessionListener(stats, started);
 
 
     </script>
