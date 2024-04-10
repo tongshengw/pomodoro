@@ -5,7 +5,7 @@
 {%block body%}
 <main>
 <!-- TIMER COMPONENT -->
-<div class = "content-wrapper-timer">
+<div class = "content-wrapper-timer removed">
     <div class="options-bar">
         <div class="row">
     
@@ -79,7 +79,25 @@
 </div>
 
 <!-- FINISH COMPONENT -->
-<div class="content-wrapper-finish removed"></div>
+<div class="content-wrapper-finish">
+    <div class="stats-content-area">
+
+        <div class="stats">
+            <div class="stats-group focus-time-stats">
+                <div class="stats-title">focus</div>
+                <div class="stats-value" id="focus-time-text">135</div>
+            </div>
+            <div class="stats-group rest-time-stats">
+                <div class="stats-title">rest</div>
+                <div class="stats-value" id="rest-time-text">25</div>
+            </div>
+        </div>
+    
+        <div class="graph"></div>
+
+        
+    </div>
+</div>
 
 </main>
     
