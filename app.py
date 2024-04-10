@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SESSION_COOKIE_SAMESITE'] = "Strict"
 Session(app)
 
 @app.before_request
@@ -26,8 +27,8 @@ def load_user():
 
 @app.route("/")
 def home():
-    focusTimes = [15,20,25]
-    restTimes = [5, 7, 10]
+    focusTimes = [0.1,20,25]
+    restTimes = [0.1, 7, 10]
     sessionCounts = [1, 2, 3]
     countFocusTimes = len(focusTimes)
     countRestTimes = len(focusTimes)
@@ -76,11 +77,11 @@ def settings():
 def login():
     if request.method == "POST":
         if not request.form.get("username"):
-            return render_template("login.html")
+            return render_template("error.html", error = "no username")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("login.html")
+            return render_template("error.html", error = "no password")
 
         # Query database for username
         rows = db_execute(
@@ -91,7 +92,7 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["password_hash"], request.form.get("password")
         ):
-            return render_template("login.html")
+            return render_template("error.html", error = "username or password incorrect")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -124,7 +125,7 @@ def register():
         print(rows)
 
         if len(rows) != 0 or username == "" or request.form.get("password") != request.form.get("confirm-password") or len(rows1) != 0 or rows2[0]["guest"] == 0 or len(username) >= 16 or len(password) >= 1000:
-            return render_template("register.html")
+            return render_template("error.html", error="invalid register")
 
         db_execute("UPDATE users SET username = ?, password_hash = ?, email = ?, guest = 0 WHERE id = ?", (username, hash, email, session["user_id"]))
         session["username"] = username

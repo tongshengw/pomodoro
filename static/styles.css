@@ -69,9 +69,23 @@ header{
 }
 
 main{
+    height:100%;
+}
+
+.content-wrapper-timer{
     display: grid;
     box-sizing: border-box;
     height:100%;
+}
+
+.content-wrapper-finish{
+    display: grid;
+    box-sizing: border-box;
+    height:100%;
+}
+
+.hidden{
+    visibility: hidden;
 }
 
 button{

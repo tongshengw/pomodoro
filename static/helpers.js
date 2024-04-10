@@ -60,7 +60,7 @@ function startPomodoro(stats) {
                 progressBar.style.width = smoothCompletion*0.95+5 + "%";
 
                 let totalCycleText = String(stats.cycles)
-                let currentCycleText = String(stats.focusCompleted)
+                let currentCycleText = String(stats.restCompleted + 1)
 
                 timeLeftText.innerHTML = toMinSec(stats.timeLeft) + ",   " + timerTypeText + ",   " + currentCycleText + "/" + totalCycleText + " Cycles";
                 timeLeftText.classList.remove("invisible");
@@ -97,6 +97,8 @@ function pausePomodoro() {
 
 function endPomodoro() {
     console.log("endPomodoro");
+
+    // invisible the current 
 }
 
 async function loadSettings() {
