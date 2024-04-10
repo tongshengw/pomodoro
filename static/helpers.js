@@ -117,18 +117,6 @@ async function loadSettings() {
 
 }
 
-async function sendSettings(stats) {
-    try {
-        const response = await fetch("api/request-settings", {method: "POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify(stats),});
-
-        const result = await response.json();
-        console.log("response recieved", result)
-
-    } catch (error) {
-        console.log("sendSettings error")
-    }
-}
-
 async function checkUsername(username, usernameElement, submitButton) {
     try {
         const response = await fetch("api/check-username", {method:"POST", headers:{"Content-Type":"application/json",}, body:JSON.stringify({username:username}),});
@@ -185,4 +173,4 @@ function checkPass(confirm, pass) {
 }
 
 
-export {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings, sendSettings, checkUsername, checkEmail, checkPass}
+export {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings, checkUsername, checkEmail, checkPass}

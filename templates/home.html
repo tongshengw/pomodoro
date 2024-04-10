@@ -5,7 +5,7 @@
 {%block body%}
 <main>
 <!-- TIMER COMPONENT -->
-<div class = "content-wrapper-timer removed">
+<div class = "content-wrapper-timer">
     <div class="options-bar">
         <div class="row">
     
@@ -79,7 +79,7 @@
 </div>
 
 <!-- FINISH COMPONENT -->
-<div class="content-wrapper-finish">
+<div class="content-wrapper-finish removed">
     <div class="stats-content-area">
 
         <div class="stats">
@@ -95,7 +95,7 @@
     
         <div class="graph"></div>
 
-        
+
     </div>
 </div>
 
@@ -107,7 +107,9 @@
 
 {%block script%}
     <script type="module">
-        import {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings, sendSettings} from '../static/helpers.js';
+        import {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings} from '../static/helpers.js';
+
+        import {focusListener, restListener, sessionListener} from '../static/optionbar.js';
 
         // TODO: modify this to use cookies to save a player's default
         
@@ -155,51 +157,9 @@
 
 
         // option bar functionality
-        let focusButtons = document.getElementsByClassName("focus-times")
-        Array.from(focusButtons).forEach(element => {
-            element.addEventListener("click", function() {
-                if (started === false) {
-                    Array.from(focusButtons).forEach(element => {
-                        element.classList.remove("selected-button");
-                    });
-                    console.log(element.id);
-                    stats.time = element.id.split("-")[0] * 60;
-                    stats.timeLeft = stats.time;
-                    element.classList.add("selected-button");
-                    sendSettings(stats);
-                }
-            });
-        });
-
-        let restButtons = document.getElementsByClassName("rest-times")
-        Array.from(restButtons).forEach(element => {
-            element.addEventListener("click", function() {
-                if (started === false) {
-                    Array.from(restButtons).forEach(element => {
-                        element.classList.remove("selected-button");
-                    });
-                    console.log(element.id);
-                    stats.restTime = element.id.split("-")[0] * 60;
-                    element.classList.add("selected-button");
-                    sendSettings(stats);
-                }
-            });
-        });
-
-        let sessionButtons = document.getElementsByClassName("session-counts")
-        Array.from(sessionButtons).forEach(element => {
-            element.addEventListener("click", function() {
-                if (started === false) {
-                    Array.from(sessionButtons).forEach(element => {
-                        element.classList.remove("selected-button");
-                    });
-                    console.log(element.id);
-                    stats.cycles = parseInt(element.id.split("-")[0]);
-                    element.classList.add("selected-button");
-                    sendSettings(stats);
-                }
-            });
-        });
+        focusListener();
+        restListener();
+        sessionListener();
 
 
     </script>
