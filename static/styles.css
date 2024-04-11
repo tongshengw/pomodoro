@@ -144,11 +144,6 @@ button{
     opacity: 0;
 }
 
-.removed{
-    display: none;
-    opacity: 0;
-}
-
 .info{
     text-indent: 1rem;
     transition: opacity 1s ease;

@@ -6,6 +6,8 @@ var timeLeftText = document.getElementById("time-left-text");
 
 var isPaused = true;
 
+var timeTracker = {focus:[[]], rest:[[]], pause:[[]]}
+
 var counterInterval;
 
 
@@ -30,6 +32,7 @@ function startPomodoro(stats) {
         if (stats.timerType == 0) {
             var totalTime = stats.time;
             var timerTypeText = "Focus"
+            console.log(Date())
         }
 
         else {
