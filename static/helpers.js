@@ -98,7 +98,15 @@ function pausePomodoro() {
 function endPomodoro() {
     console.log("endPomodoro");
 
-    // invisible the current 
+    let timerWrapper = document.getElementById("content-wrapper-timer");
+    let finishWrapper = document.getElementById("content-wrapper-finish");
+
+    timerWrapper.classList.add("removed");
+    finishWrapper.classList.remove("removed");
+
+    // add code to change the stats
+
+
 }
 
 async function loadSettings() {
@@ -109,6 +117,7 @@ async function loadSettings() {
     const rest = settings[0]["rest_time"];
     const sessions = settings[0]["session_count"];
 
+    // TODO: try and catch if button doesnt exist
     document.getElementById(focus + "-focus").classList.add("selected-button");
     document.getElementById(rest + "-rest").classList.add("selected-button");
     document.getElementById(sessions + "-sessions").classList.add("selected-button");

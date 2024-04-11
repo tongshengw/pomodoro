@@ -27,8 +27,8 @@ def load_user():
 
 @app.route("/")
 def home():
-    focusTimes = [0.1,20,25]
-    restTimes = [0.1, 7, 10]
+    focusTimes = [0.05,20,25]
+    restTimes = [0.05, 7, 10]
     sessionCounts = [1, 2, 3]
     countFocusTimes = len(focusTimes)
     countRestTimes = len(focusTimes)
