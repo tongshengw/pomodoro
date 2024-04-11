@@ -132,27 +132,27 @@
             started.value = true;
             while (started.value && (stats.focusCompleted < stats.cycles || stats.restCompleted < stats.cycles)) {
                 if (stats.timerType == 0) {
-                    console.log("focus start");
+                    // console.log("focus start");
                     await startPomodoro(stats);
                 }
                 else {
-                    console.log("rest start")
+                    // console.log("rest start")
                     await startPomodoro(stats);
                 }
             }
             if (stats.focusCompleted == stats.cycles && stats.restCompleted == stats.cycles) {
-                console.log("cycle complete");
+                // console.log("cycle complete");
                 endPomodoro();
             }
             else {
-                console.log("cycle paused");
+                // console.log("cycle paused");
             }
         });
 
         // pause button
         pauseButton.addEventListener("click", function() {
             started.value = false;
-            pausePomodoro();
+            pausePomodoro(stats);
         });
 
 
