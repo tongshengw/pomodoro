@@ -27,8 +27,8 @@ def load_user():
 
 @app.route("/")
 def home():
-    focusTimes = [0.05,20,25]
-    restTimes = [0.05, 7, 10]
+    focusTimes = [0.05,15,25]
+    restTimes = [0.05, 5, 10]
     sessionCounts = [1, 2, 3]
     countFocusTimes = len(focusTimes)
     countRestTimes = len(focusTimes)
@@ -133,6 +133,10 @@ def register():
     
     else:
         return render_template("register.html")
+    
+@app.route("/friend", methods=["GET", "POST"])
+def friend():
+    pass
     
 @app.route("/api/check-username", methods=["POST"])
 def checkUsername():

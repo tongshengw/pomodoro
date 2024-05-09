@@ -1,3 +1,5 @@
+import * as d3 from "https://cdn.skypack.dev/d3@7"; 
+
 var startButton = document.getElementById("startButton");
 var pauseButton = document.getElementById("pauseButton");
 var progressBar = document.getElementsByClassName("progressbar")[0];
@@ -42,10 +44,12 @@ function startPomodoro(stats) {
                 timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = new Date()
                 // to start a new focus starttime
                 timeTracker["focus"].push({startTime: new Date(), endTime: null})
+                
             }
 
             else if (stats.focusCompleted === 0) {
                 console.log("focus first start")
+                // focus first start
                 timeTracker = {focus:[], rest:[], pause:[]}
                 timeTracker["focus"].push({startTime: new Date(), endTime: null})
                 console.log(timeTracker)
@@ -193,6 +197,103 @@ function endPomodoro() {
     finishWrapper.classList.remove("removed");
 
     // add code to change the stats
+
+    let focusTimeText = document.getElementById("focus-time-text");
+    let restTimeText = document.getElementById("rest-time-text");
+
+    focusTimeText.innerHTML = Math.round(totalFocusTime/60000);
+    restTimeText.innerHTML = Math.round(totalRestTime/60000);
+
+    focusTimeText.ariaLabel = Math.floor(totalFocusTime/1000) + " seconds spent in focus";
+    restTimeText.ariaLabel = Math.floor(totalRestTime/1000) + " seconds spent in rest";
+
+
+
+    const dataFocus = timeTracker["focus"];
+    const dataRest = timeTracker["rest"];
+    const dataPause = timeTracker["pause"];
+
+    const margin = { top: 20, right: 30, bottom: 40, left: 60 };
+    const width = 800 - margin.left - margin.right;
+    const height = 250 - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Combine all time data
+    const absStart = dataFocus[0]["startTime"];
+
+    // Define time scale
+    const xScale = d3.scaleLinear()
+    .domain([0, dataRest[dataRest.length - 1]["endTime"]- absStart])
+    .range([0, width]);
+
+    // Define y scale
+    const yScale = d3.scaleBand()
+      .domain(["Focus", "Rest", "Pause"])
+      .range([0, height])
+      .padding(0.5);
+
+    // Draw rectangles for focus
+    svg.selectAll(".focus")
+      .data(dataFocus)
+      .enter().append("rect")
+      .attr("class", "focus")
+      .attr("x", d => xScale(d.startTime - absStart))
+      .attr("y", yScale("Focus"))
+      .attr("width", d => xScale(d.endTime- absStart) - xScale(d.startTime- absStart))
+      .attr("height", yScale.bandwidth())
+      .style("fill", "steelblue");
+
+    // Draw rectangles for pause
+    svg.selectAll(".pause")
+      .data(dataPause)
+      .enter().append("rect")
+      .attr("class", "pause")
+      .attr("x", d => xScale(d.startTime- absStart))
+      .attr("y", yScale("Pause"))
+      .attr("width", d => xScale(d.endTime- absStart) - xScale(d.startTime- absStart))
+      .attr("height", yScale.bandwidth())
+      .style("fill", "orange");
+
+    // Draw rectangles for rest
+    svg.selectAll(".rest")
+      .data(dataRest)
+      .enter().append("rect")
+      .attr("class", "rest")
+      .attr("x", d => xScale(d.startTime- absStart))
+      .attr("y", yScale("Rest"))
+      .attr("width", d => xScale(d.endTime- absStart) - xScale(d.startTime- absStart))
+      .attr("height", yScale.bandwidth())
+      .style("fill", "lightgreen");
+
+    // Add x-axis
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(xScale));
+
+    // Add y-axis
+    svg.append("g")
+      .call(d3.axisLeft(yScale));
+
+    // Add labels
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Activity");
+
+    svg.append("text")
+      .attr("class", "x-axis-label")
+      .attr("text-anchor", "middle")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom)
+      .text("Time");
 
 
 }
