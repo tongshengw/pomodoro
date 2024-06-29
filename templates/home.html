@@ -4,6 +4,11 @@
 
 {%block body%}
 <main>
+<!-- Notification sound -->
+<audio id="notification-sound">
+    <source src="../static/trimmedNotifSoundAgain.mp3" type="audio/mpeg">
+</audio> 
+
 <!-- TIMER COMPONENT -->
 <div class = "content-wrapper-timer" id = "content-wrapper-timer">
     <div class="options-bar">
@@ -112,6 +117,8 @@
         import {toMinSec, startPomodoro, pausePomodoro, endPomodoro, loadSettings} from '../static/helpers.js';
 
         import {focusListener, restListener, sessionListener} from '../static/optionbar.js';
+
+        
         
         let time = 2;
         let restTime = 1;

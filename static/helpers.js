@@ -5,6 +5,7 @@ var pauseButton = document.getElementById("pauseButton");
 var progressBar = document.getElementsByClassName("progressbar")[0];
 var percentage = document.getElementById("percentage");
 var timeLeftText = document.getElementById("time-left-text");
+var notificationSound = document.getElementById("notification-sound");
 
 var isPaused;
 
@@ -29,6 +30,8 @@ function startPomodoro(stats) {
 
         startButton.classList.add("removed");
         pauseButton.classList.remove("removed");
+
+        notificationSound.play();
 
         
 
@@ -66,6 +69,8 @@ function startPomodoro(stats) {
         else {
             var totalTime = stats.restTime;
             var timerTypeText = "Rest"
+
+            notificationSound.play();
 
             // this checks whether the rest starts from pause, from rest, or first start in order to handle data correctly
             if (isPaused === true) {
