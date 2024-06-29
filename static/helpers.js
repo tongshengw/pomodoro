@@ -71,13 +71,13 @@ function startPomodoro(stats) {
             if (isPaused === true) {
                 console.log("rest start from pause");
                 timeTracker["rest"].push({startTime: new Date(), endTime: null});
-                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = new Date()
+                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = new Date();
             }
             
             else {
                 console.log("rest start from focus");
                 timeTracker["rest"].push({startTime: new Date(), endTime: null});
-                timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = new Date()
+                timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = new Date();
             }
 
         }
@@ -207,6 +207,7 @@ function endPomodoro() {
     focusTimeText.ariaLabel = Math.floor(totalFocusTime/1000) + " seconds spent in focus";
     restTimeText.ariaLabel = Math.floor(totalRestTime/1000) + " seconds spent in rest";
 
+    sendHistory(Math.floor(totalFocusTime/1000), Math.floor(totalRestTime/1000));
 
 
     const dataFocus = timeTracker["focus"];
@@ -313,6 +314,20 @@ async function loadSettings() {
 
     return {focus:focus, rest:rest, sessions:sessions};
 
+}
+
+async function sendHistory(focus_time, rest_time) {
+    try {
+        const response = await fetch("api/add-history", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json' // Ensure headers are set to indicate JSON payload
+            },
+            body: JSON.stringify({"focus_time":focus_time, "rest_time":rest_time})
+        });
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 

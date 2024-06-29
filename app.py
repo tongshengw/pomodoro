@@ -134,9 +134,9 @@ def register():
     else:
         return render_template("register.html")
     
-@app.route("/friend", methods=["GET", "POST"])
+@app.route("/friends", methods=["GET", "POST"])
 def friend():
-    pass
+    return render_template("friends.html", user_id = session["user_id"], username = session["username"])
     
 @app.route("/api/check-username", methods=["POST"])
 def checkUsername():
@@ -157,3 +157,12 @@ def checkEmail():
         return jsonify(False)
     else:
         return jsonify(True)
+
+@app.route("/api/add-history", methods=["POST"])
+def addHistory():
+    json = request.get_json()
+    if "focus_time" in json and "rest_time" in json and session["username"] and session["user_id"]:
+        db_execute("INSERT INTO history (user_id, focus_time, rest_time) VALUES (?, ?, ?)", (session["user_id"], json["focus_time"], json["rest_time"]))
+        return "success"
+    else:
+        return "failed"
