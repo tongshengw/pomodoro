@@ -41,9 +41,9 @@ function startPomodoro(stats) {
                 console.log("focus start from pause")
 
                 // to add a pause endtime
-                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = new Date()
+                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = performance.now()
                 // to start a new focus starttime
-                timeTracker["focus"].push({startTime: new Date(), endTime: null})
+                timeTracker["focus"].push({startTime: performance.now(), endTime: null})
                 
             }
 
@@ -51,14 +51,14 @@ function startPomodoro(stats) {
                 console.log("focus first start")
                 // focus first start
                 timeTracker = {focus:[], rest:[], pause:[]}
-                timeTracker["focus"].push({startTime: new Date(), endTime: null})
+                timeTracker["focus"].push({startTime: performance.now(), endTime: null})
                 console.log(timeTracker)
             }
             
             else {
                 console.log("focus start from rest")
-                timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = new Date()
-                timeTracker["focus"].push({startTime: new Date(), endTime: null})
+                timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = performance.now()
+                timeTracker["focus"].push({startTime: performance.now(), endTime: null})
             }
             
         }
@@ -70,14 +70,14 @@ function startPomodoro(stats) {
             // this checks whether the rest starts from pause, from rest, or first start in order to handle data correctly
             if (isPaused === true) {
                 console.log("rest start from pause");
-                timeTracker["rest"].push({startTime: new Date(), endTime: null});
-                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = new Date();
+                timeTracker["rest"].push({startTime: performance.now(), endTime: null});
+                timeTracker["pause"][timeTracker["pause"].length - 1]["endTime"] = performance.now();
             }
             
             else {
                 console.log("rest start from focus");
-                timeTracker["rest"].push({startTime: new Date(), endTime: null});
-                timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = new Date();
+                timeTracker["rest"].push({startTime: performance.now(), endTime: null});
+                timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = performance.now();
             }
 
         }
@@ -145,43 +145,43 @@ function pausePomodoro(stats) {
 
     if (stats.timerType === 0) {
         console.log("pause start from focus");
-        timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = new Date();
-        timeTracker["pause"].push({startTime: new Date(), endTime: null});
+        timeTracker["focus"][timeTracker["focus"].length - 1]["endTime"] = performance.now();
+        timeTracker["pause"].push({startTime: performance.now(), endTime: null});
     }
     else {
         console.log("pause start from rest");
-        timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = new Date();
-        timeTracker["pause"].push({startTime: new Date(), endTime: null});
+        timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = performance.now();
+        timeTracker["pause"].push({startTime: performance.now(), endTime: null});
     }
 }
 
 function endPomodoro() {
     console.log("endPomodoro");
 
-    timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = new Date();
+    timeTracker["rest"][timeTracker["rest"].length - 1]["endTime"] = performance.now();
 
     console.log(timeTracker);
 
     let totalFocusTime = 0;
     for (let i = 0; i<timeTracker["focus"].length;i+=1) {
-        let et = timeTracker["focus"][i]["endTime"].getTime();
-        let st = timeTracker["focus"][i]["startTime"].getTime();
+        let et = timeTracker["focus"][i]["endTime"];
+        let st = timeTracker["focus"][i]["startTime"];
         let t = et-st;
         totalFocusTime += t;
     }
 
     let totalRestTime = 0;
     for (let i = 0; i<timeTracker["rest"].length;i+=1) {
-        let et = timeTracker["rest"][i]["endTime"].getTime();
-        let st = timeTracker["rest"][i]["startTime"].getTime();
+        let et = timeTracker["rest"][i]["endTime"];
+        let st = timeTracker["rest"][i]["startTime"];
         let t = et-st;
         totalRestTime += t;
     }
 
     let totalPauseTime = 0;
     for (let i = 0; i<timeTracker["pause"].length;i+=1) {
-        let et = timeTracker["pause"][i]["endTime"].getTime();
-        let st = timeTracker["pause"][i]["startTime"].getTime();
+        let et = timeTracker["pause"][i]["endTime"];
+        let st = timeTracker["pause"][i]["startTime"];
         let t = et-st;
         totalPauseTime += t;
     }

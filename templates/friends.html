@@ -7,12 +7,13 @@
         <div>
             <div class="login">
                 <div>add friend, your id is [{{user_id}}]</div>
-                <form action="" class = "login-form">
-                    <input class="text-input" name = "friend_id" type="text" placeholder="user id" autofocus>
+                <!-- <form action="" class = "login-form"> -->
 
-                    <button type="submit" class="button1 sign-in-button">send request</button>
+                    <input class="text-input" name = "friend_id" type="number" min="0" max="9999999" step="1" placeholder="user id" id = "user-id-input" autofocus>
 
-                </form>
+                    <button type="submit" class="button1 sign-in-button" id="friend-request-button">send request</button>
+
+                <!-- </form> -->
                 
             </div>
             <div class = "table">
@@ -27,6 +28,20 @@
         
     </div>
 
+{%endblock%}
 
+{%block script%}
+    <script type="module">
+        import {loadFriends, sendFriendRequest} from '../static/friends.js';
 
+        let friends = [];
+        let friendRequests = [];
+
+        // loadFriends(friends, friendRequests);
+
+        document.getElementById('friend-request-button').addEventListener('click', async function() {
+            let recieverId = document.getElementById('user-id-input').value;
+            sendFriendRequest(recieverId);
+        });
+    </script>
 {%endblock%}

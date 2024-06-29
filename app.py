@@ -23,6 +23,21 @@ Session(app)
 @app.before_request
 def load_user():
     syncIdUsername(session)
+    if "user_id" not in session:
+        db = sqlite3.connect("pomodoro.db")
+        c = db.cursor()
+        print("no saved session")
+        c.execute("INSERT INTO users (guest) VALUES (?)", (1,))
+
+        id = c.lastrowid
+
+        c.execute("INSERT INTO settings (user_id, focus_time, rest_time, session_count) VALUES (?,?,?,?)", (id, 15, 5, 1))
+
+        session["user_id"] = id
+
+        db.commit()
+
+        db.close()
 
 
 @app.route("/")
@@ -136,6 +151,8 @@ def register():
     
 @app.route("/friends", methods=["GET", "POST"])
 def friend():
+    if "username" not in session:
+        return redirect("/login")
     return render_template("friends.html", user_id = session["user_id"], username = session["username"])
     
 @app.route("/api/check-username", methods=["POST"])
@@ -163,6 +180,51 @@ def addHistory():
     json = request.get_json()
     if "focus_time" in json and "rest_time" in json and session["username"] and session["user_id"]:
         db_execute("INSERT INTO history (user_id, focus_time, rest_time) VALUES (?, ?, ?)", (session["user_id"], json["focus_time"], json["rest_time"]))
+        return "success"
+    else:
+        return "failed"
+
+@app.route("/api/load-friends", methods = ["GET"])
+def loadFriends():
+    if not session["username"]:
+        return redirect("/login")
+    else:
+        return None
+        # TODO a bunch of friend stuff
+
+
+# relationship 0 is friends, 1 is user 1 requesting user 2, 2 is user 2 requesting user 1
+@app.route("/api/add-friends", methods = ["POST"])
+def addFriends():
+    json = request.get_json()
+    sender_id = session["user_id"]
+    if "reciever_id" in json:
+        if sender_id == json["reciever_id"]:
+            return "failed"
+        
+        json["reciever_id"] = int(json["reciever_id"])
+        
+        if sender_id < json["reciever_id"]:
+            userid1 = sender_id
+            userid2 = json["reciever_id"]
+            sender = 1
+            reciever = 2
+        else:
+            userid2 = sender_id
+            userid1 = json["reciever_id"]
+            sender = 2
+            reciever = 1
+        
+        rows = db_execute("SELECT * FROM friends WHERE user_id_1 = ? AND user_id_2 = ?", (userid1, userid2))
+
+        print(userid1)
+        print(userid2)
+
+        if len(rows) == 0:
+            db_execute("INSERT INTO friends (user_id_1, user_id_2, relationship) VALUES (?, ?, ?)", (userid1, userid2, sender))
+        elif rows[0]["relationship"] == reciever:
+            db_execute("UPDATE friends SET relationship = 0 WHERE user_id_1 = ? AND user_id_2 = ?", (userid1, userid2))
+
         return "success"
     else:
         return "failed"
