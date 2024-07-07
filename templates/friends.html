@@ -3,8 +3,8 @@
 {%block title%}Friends | Pomodoro{%endblock%}
 
 {%block body%}
-    <div class="login-container">
-        <div>
+<div>
+    <div class="friends-container login-container">
             <div class="login">
                 <div>add friend, your id is [{{user_id}}]</div>
                 <!-- <form action="" class = "login-form"> -->
@@ -16,28 +16,59 @@
                 <!-- </form> -->
                 
             </div>
-            <div class = "table">
-                test
+
+            <div class="login">
+                <div>friend requests</div>
+                <!-- <form action="" class = "login-form"> -->
+
+                    <table id="pending-friends-table" class="friends-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>username</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+
+                <!-- </form> -->
+                
             </div>
-
-        </div>
-
-        <div>
-            test
-        </div>
-        
     </div>
 
+
+    <div class="friends-table-container">
+        friends
+        <table id="friends-table" class="friends-table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>focus time (mins this week)</th>
+                    <th>rest time (mins this week)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+        
+</div>
 {%endblock%}
 
 {%block script%}
     <script type="module">
-        import {loadFriends, sendFriendRequest} from '../static/friends.js';
+        import {loadFriends, sendFriendRequest, populateFriendRequests, populateFriends} from '../static/friends.js';
 
-        let friends = [];
-        let friendRequests = [];
+        let friends = {};
+        let friendRequests = {};
 
-        // loadFriends(friends, friendRequests);
+        loadFriends(friends, friendRequests);
+
+        // populateFriendRequests(friendRequests, document.getElementById("pending-friends-table"));
+        // populateFriends(friends, document.getElementById("friends-table"));
 
         document.getElementById('friend-request-button').addEventListener('click', async function() {
             let recieverId = document.getElementById('user-id-input').value;

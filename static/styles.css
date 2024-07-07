@@ -312,3 +312,34 @@ button{
     font-size: 1.5rem;
     color: var(--greyish);
 }
+
+.friends-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.friends-table td, .friends-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+  }
+
+.friends-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.friends-table tr:hover {background-color: #ddd;}
+
+.friends-table th {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+    text-align: left;
+    color: black;
+  }
+
+.friends-table-container{
+    margin-top: 4rem;
+}

@@ -184,13 +184,35 @@ def addHistory():
     else:
         return "failed"
 
-@app.route("/api/load-friends", methods = ["GET"])
+@app.route("/api/load-friends", methods = ["POST"])
 def loadFriends():
     if not session["username"]:
         return redirect("/login")
     else:
-        return None
         # TODO a bunch of friend stuff
+        json = request.get_json()
+        id = session["user_id"]
+        print(id)
+        friends1 = db_execute("SELECT user_id, focus_time, rest_time, timestamp FROM history WHERE user_id IN (SELECT user_id_1 FROM friends WHERE user_id_2 = ? AND relationship = 0) AND timestamp >= datetime('now', '-7 days');", (id,))
+        friends2 = db_execute("SELECT user_id, focus_time, rest_time, timestamp FROM history WHERE user_id IN (SELECT user_id_2 FROM friends WHERE user_id_1 = ? AND relationship = 0) AND timestamp >= datetime('now', '-7 days');", (id,))
+
+        friends = friends1 + friends2
+
+        print(friends)
+
+        tallyDict = {}
+
+        for entry in friends:
+            if entry["user_id"] not in tallyDict:
+                tallyDict[entry["user_id"]] = {"totalFocus": entry["focus_time"], "totalRest": entry["rest_time"]}
+            else:
+                tallyDict[entry["user_id"]]["totalFocus"] += entry["focus_time"]
+                tallyDict[entry["user_id"]]["totalRest"] += entry["rest_time"]
+
+        print(tallyDict)
+
+        return jsonify(tallyDict)
+
 
 
 # relationship 0 is friends, 1 is user 1 requesting user 2, 2 is user 2 requesting user 1
