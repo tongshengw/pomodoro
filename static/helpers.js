@@ -27,8 +27,6 @@ function toMinSec(time) {
 // var stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, focusCompleted:0, restCompleted:0, smoothCompletion:0, timeWorked:0, timeRested:0, timeBegin:0}
 function startPomodoro(stats) {
     return new Promise((resolve, reject) => {
-        console.log('top of startpomodoro')
-        console.log(stats)
         startButton.classList.add("removed");
         pauseButton.classList.remove("removed");
 
@@ -56,7 +54,6 @@ function startPomodoro(stats) {
                 // focus first start
                 timeTracker = {focus:[], rest:[], pause:[]}
                 timeTracker["focus"].push({startTime: performance.now(), endTime: null})
-                console.log(timeTracker)
             }
             
             else {
@@ -93,14 +90,10 @@ function startPomodoro(stats) {
 
         timerWorker = new Worker('./static/timerWorker.js');
         // postMessage as an array, first term 0 means initial send stats and ispaused status
-        console.log('new worker made');
-        console.log(stats);
         timerWorker.postMessage([0, stats, isPaused, totalTime]);
 
         timerWorker.onmessage = (e) => {
             if (e.data === "resolve") {
-                console.log('promise resolved')
-                console.log(stats)
                 resolve();
             }
             else if (e.data[0] === 1) {
@@ -122,8 +115,6 @@ function startPomodoro(stats) {
                 for (key in e.data[1]) {
                     stats[key] = e.data[1][key]
                 }
-                console.log('message code 2')
-                console.log(stats)
             }
         }
         

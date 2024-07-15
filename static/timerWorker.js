@@ -16,27 +16,23 @@ onmessage = (e) => {
 
 const counterInterval = setInterval(function() {
     if (isPaused) {
-        // console.log("startpomodoro promise resolved");
         clearInterval(counterInterval);
         // resolve();
         postMessage([2, stats]);
-        console.log(stats)
         postMessage('resolve');
     }
     
     else if (stats.timeLeft > 0) {
     
-        stats.timeLeft -= 0.05;
+        stats.timeLeft -= 0.1;
 
         let smoothCompletion = ((1-(stats.timeLeft/totalTime)) *100);
-        // console.log(stats.timeLeft);
         let completion = Math.floor(smoothCompletion);
         completion = Math.min(100, completion);
 
         let totalCycleText = String(stats.cycles);
         let currentCycleText = String(stats.restCompleted + 1);
-        console.log('in setinterval')
-        console.log(stats)
+        
         postMessage([1, completion, smoothCompletion, totalCycleText, currentCycleText, stats.timeLeft]);
 
         }
@@ -56,9 +52,8 @@ const counterInterval = setInterval(function() {
         }
 
         stats.timerType = 1 - stats.timerType;
-        // console.log(stats.timerType);
         postMessage([2, stats]);
         postMessage('resolve');
     }
 
-},50);
+},100);
