@@ -12,7 +12,7 @@ var isPaused;
 // 
 var timeTracker = {focus:[], rest:[], pause:[]}
 
-var counterInterval;
+let timerWorker;
 
 
 function toMinSec(time) {
@@ -27,7 +27,8 @@ function toMinSec(time) {
 // var stats = {timeLeft:time, time:time, restTime:restTime, cycles:cycles, focusCompleted:0, restCompleted:0, smoothCompletion:0, timeWorked:0, timeRested:0, timeBegin:0}
 function startPomodoro(stats) {
     return new Promise((resolve, reject) => {
-
+        console.log('top of startpomodoro')
+        console.log(stats)
         startButton.classList.add("removed");
         pauseButton.classList.remove("removed");
 
@@ -90,60 +91,50 @@ function startPomodoro(stats) {
 
         isPaused = false;
 
-        counterInterval = setInterval(function() {
-            if (isPaused) {
-                // console.log("startpomodoro promise resolved");
-                clearInterval(counterInterval);
+        timerWorker = new Worker('./static/timerWorker.js');
+        // postMessage as an array, first term 0 means initial send stats and ispaused status
+        console.log('new worker made');
+        console.log(stats);
+        timerWorker.postMessage([0, stats, isPaused, totalTime]);
+
+        timerWorker.onmessage = (e) => {
+            if (e.data === "resolve") {
+                console.log('promise resolved')
+                console.log(stats)
                 resolve();
             }
-            
-            else if (stats.timeLeft > 0) {
-            
-                stats.timeLeft -= 0.05;
-
-                let smoothCompletion = ((1-(stats.timeLeft/totalTime)) *100);
-                // console.log(stats.timeLeft);
-                let completion = Math.floor(smoothCompletion);
-
-                completion = Math.min(100, completion);
-
+            else if (e.data[0] === 1) {
+                let completion = e.data[1];
+                let smoothCompletion = e.data[2];
+                let totalCycleText = e.data[3];
+                let currentCycleText = e.data[4];
+                let timeLeft = e.data[5]
                 // completion is from 0-100 and is the percentage completion of the progress bar
                 percentage.innerHTML = completion + "%";
-
                 progressBar.style.width = smoothCompletion*0.95+5 + "%";
-
-                let totalCycleText = String(stats.cycles)
-                let currentCycleText = String(stats.restCompleted + 1)
-
-                timeLeftText.innerHTML = toMinSec(stats.timeLeft) + ",   " + timerTypeText + ",   " + currentCycleText + "/" + totalCycleText + " Cycles";
+                timeLeftText.innerHTML = toMinSec(timeLeft) + ",   " + timerTypeText + ",   " + currentCycleText + "/" + totalCycleText + " Cycles";
                 timeLeftText.classList.remove("invisible");
-                }
 
-            
-            
-            else {
-                clearInterval(counterInterval);
-
-                if (stats.timerType == 0) {
-                    stats.focusCompleted += 1;
-                    stats.timeLeft = stats.restTime;
-                }
-                else {
-                    stats.restCompleted += 1;
-                    stats.timeLeft = stats.time;
-                }
-
-                stats.timerType = 1 - stats.timerType;
-                // console.log(stats.timerType);
-                resolve();
             }
-
-        },50);
+            else if (e.data[0] === 2) {
+                // super slow for loops for copying stats
+                let key;
+                for (key in e.data[1]) {
+                    stats[key] = e.data[1][key]
+                }
+                console.log('message code 2')
+                console.log(stats)
+            }
+        }
+        
     });
 }
 
 function pausePomodoro(stats) {
     isPaused = true;
+    console.log('pausepom')
+    console.log(stats)
+    timerWorker.postMessage([3, isPaused]);
     startButton.classList.remove("removed");
     pauseButton.classList.add("removed");
     // console.log("pause start helper")
