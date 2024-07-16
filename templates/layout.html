@@ -22,6 +22,9 @@
                         <a href = "/friends" class="nav-element">
                             <div class="text">friends</div>
                         </a>
+                        <a href = "/settings" class="nav-element">
+                            <div class="text">settings</div>
+                        </a>
                         {% if session["username"] %}
                             <div class="right-nav">
                                 <a href = "/logout" class="nav-element">
@@ -44,7 +47,9 @@
                 {%block body%}{%endblock%}
                 
                 <div class="footer">
-                    footer
+                    <a href = "https://github.com/tongshengw/pomodoro" class="nav-element">
+                        <div class="text">github</div>
+                    </a>
                 </div>
         </div>
 

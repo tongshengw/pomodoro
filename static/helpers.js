@@ -295,9 +295,32 @@ async function loadSettings() {
     const sessions = settings[0]["session_count"];
 
     // TODO: try and catch if button doesnt exist
-    document.getElementById(focus + "-focus").classList.add("selected-button");
-    document.getElementById(rest + "-rest").classList.add("selected-button");
-    document.getElementById(sessions + "-sessions").classList.add("selected-button");
+    try {
+        document.getElementById(focus + "-focus").classList.add("selected-button");
+    } catch (error) {
+        const leftMostFocus = document.getElementById("10-focus")
+        leftMostFocus.classList.add('selected-button');
+        leftMostFocus.innerHTML = focus
+        console.log("focus time set to: " + focus)
+    }
+
+    try {
+        document.getElementById(rest + "-rest").classList.add("selected-button");
+    } catch (error) {
+        const leftMostRest = document.getElementById("3-rest")
+        leftMostRest.classList.add('selected-button');
+        leftMostRest.innerHTML = rest
+        console.log("rest time set to: " + rest)
+    }
+
+    try {
+        document.getElementById(sessions + "-sessions").classList.add("selected-button");
+    } catch (error) {
+        const leftMostSessions = document.getElementById("1-sessions")
+        leftMostSessions.classList.add('selected-button');
+        leftMostSessions.innerHTML = focus
+        console.log("sessions set to: " + sessions)
+    }
 
     return {focus:focus, rest:rest, sessions:sessions};
 

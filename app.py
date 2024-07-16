@@ -42,8 +42,8 @@ def load_user():
 
 @app.route("/")
 def home():
-    focusTimes = [0.05,15,25]
-    restTimes = [0.05, 5, 10]
+    focusTimes = [10, 15, 25]
+    restTimes = [3, 5, 10]
     sessionCounts = [1, 2, 3]
     countFocusTimes = len(focusTimes)
     countRestTimes = len(focusTimes)
@@ -154,6 +154,10 @@ def friend():
     if "username" not in session:
         return redirect("/login")
     return render_template("friends.html", user_id = session["user_id"], username = session["username"])
+
+@app.route("/settings", methods=["GET", "POST"])
+def viewsettings():
+    return render_template("settings.html")
     
 @app.route("/api/check-username", methods=["POST"])
 def checkUsername():
